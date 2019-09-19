@@ -1,0 +1,238 @@
+<HTML>
+  <HEAD>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8" />
+  <link href="misc/w3.css" type="text/css" rel="stylesheet" />
+  <link href="misc/w3-theme-amber.css" type="text/css" rel="stylesheet" />
+  <TITLE></TITLE>
+  <style>
+    #mainTable {
+    border-collapse: collapse;
+    }
+
+    #mainTable td{
+    border: 1px solid;
+    position: relative;
+    }
+
+    thead > tr > td {
+    text-align: center;
+    }
+    tbody > tr > td {
+    min-width:80px;
+    height:80px;
+    background-size:cover;
+    }
+
+    .shakal {
+    width:auto !important;
+    min-width:1px !important;
+    }
+
+    td > .food, td > .money, td > .army, td > .people, td > .building {
+    position: absolute;
+    background-size: 100% 100%;
+    text-align: center;
+    }
+
+    td > .money {
+    background-image: url(images/money.png);
+    right:0.3vh;
+    top:0.3vh;
+    width: 3vh;
+    /height: 3.2vh;
+    z-index: 9;
+    font-weight: bold;
+    }
+
+    td > .army {
+    background-image: url(images/shield.png);
+    left:0.3vh;
+    bottom:0.3vh;
+    width: 3vh;
+    /height: 3.2vh;
+    z-index: 9;
+    padding: 1px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    }
+    button {
+    font-weight: 550;
+    }
+
+    td > .people {
+    z-index: 7;
+    }
+
+    td > .building {
+    z-index: 5;
+    background-image: url(images/empty.png);
+    left:2vh;
+    top:2vh;
+    width:50%;
+    height:50%;
+    }
+    /**/
+    .Побережье {
+    background-image: url(images/Побережье.png);
+    ~background-color: #0094FF;
+    }
+
+    .Океан {
+    background-image: url(images/Океан.png);
+    ~background-color: #00137F;
+    }
+
+    /**/
+    .Луг {
+    -background-color: #00AA00;
+    }
+
+    .Холмы {
+    background-image: url(images/Холмы.png);
+    ~background-color: #704500;
+    ~background: linear-gradient(135deg, rgba(0,170,0,1) 0%, rgba(68,43,0,1) 60%);
+    }
+
+    .Лес {
+    background-image: url(images/Лес.png);
+    -background-color: #006309;
+    }   
+
+    .Болото {
+    background-image: url(images/Болото.png);
+    ~background-color: #00137F;
+    }    
+
+    /*
+    .Саванна {
+    background-color: #7F6A00;
+    }
+    */    
+
+    /**/
+    .Джунгли {
+    background-color: #00633A;
+    }
+
+    .Горы {
+    background-color: #442B00;
+    }
+
+    .Пустыня {
+    background-color: #FFD800;
+    }
+
+    .Ледник {
+    background-color: #40E0D0;
+    }
+  </style>
+
+</HEAD>
+<script>
+  var cntRows    = 10;
+  var cntColumns = 15;
+</script>
+<!-- <div id="modalSelectBiome" hidden class="w3-theme w3-border w3-center w3-padding" -->
+<!-- style="position:absolute; left:15%; top:10%; "> -->
+<body class="w3-light-green w3-padding" style="overflow:auto">
+
+  <button 
+  onclick="allButtons.style.display == 'none' ? allButtons.style.display = '' : allButtons.style.display = 'none'"
+  >A</button>
+  <span id='allButtons'>
+    <button id='biometrigger' onclick="triggerBiomes()">/\</button>
+    <fieldset id="biomesList" style="display:inline-block">
+      <button class="Побережье" onclick="applyBiome = this.innerText;">Побережье</button>
+      <button class="Океан" onclick="applyBiome = this.innerText;">Океан</button>
+      <button onclick="applyBiome = this.innerText;" class="Луг">Луг</button>
+      <button onclick="applyBiome = this.innerText;" class="Холмы">Холмы</button>
+      <button onclick="applyBiome = this.innerText;" class="Лес">Лес</button>
+      <button onclick="applyBiome = this.innerText;" class="Болото">Болото</button>
+      <!-- <button onclick="applyBiome = this.innerText;" class="Саванна">Саванна</button> -->
+      <button onclick="applyBiome = this.innerText;" class="Джунгли">Джунгли</button>
+      <button onclick="applyBiome = this.innerText;" class="Горы">Горы</button>
+      <button onclick="applyBiome = this.innerText;" class="Пустыня">Пустыня</button>
+      <button onclick="applyBiome = this.innerText;" class="Ледник">Ледник</button>
+      <button onclick="applyBiome = '';">Сброс</button>
+    </fieldset>
+    <button onclick="saveMainMap()">Скачать</button>
+    <button onclick="loadMainMap()">Загрузить</button>
+  </span>
+
+  <table id="mainTable">    
+  </table> 
+  <a id='downloadhref' hidden download="map.txt"></a>
+</body>
+<script>
+  var applyBiome = 'Луг';
+  var mode = 'biomes';
+
+  mainTable.createTHead()
+  mainTable.createTBody()
+
+  mainTable.tHead.insertRow(0)
+  for(let j=0; j<cntColumns; j++)  {
+    mainTable.tHead.rows[0].insertCell(0);
+    mainTable.tHead.rows[0].cells[0].innerHTML = cntColumns-j-1;
+  }
+  mainTable.tHead.rows[0].insertCell(0);
+  mainTable.tHead.rows[0].cells[0].innerHTML = ''
+
+  for(let i=0; i<cntRows; i++)  {
+    mainTable.tBodies[0].insertRow(0)
+    
+    for(let j=0; j<cntColumns; j++)  {
+      mainTable.tBodies[0].rows[0].insertCell(0);
+      mainTable.tBodies[0].rows[0].cells[0].classList= 'Луг'
+      mainTable.tBodies[0].rows[0].cells[0].innerHTML = '<div click="onMoneyClick()" class="money"></div><div click="onFoodClick()" class="food"></div><div click="onArmyClick()" class="army"></div><div click="onPeopleClick()" class="people"></div><div click="onBuildingClick()" class="building"></div>';
+      mainTable.tBodies[0].rows[0].cells[0].onclick = onClickCellBiome;
+    }
+    
+    mainTable.tBodies[0].rows[0].insertCell(0);
+    mainTable.tBodies[0].rows[0].cells[0].classList= 'shakal'
+    mainTable.tBodies[0].rows[0].cells[0].innerHTML = cntRows-i-1;
+  }
+
+  function onClickCellBiome() {
+    switch (mode) {
+    case 'biomes':
+      if (applyBiome == '')
+        return;
+      this.classList = applyBiome;
+      break;
+    case 'normal':
+      break;
+    }
+  }
+
+
+  function onArmyClick(e) {
+    alert(e)
+  }
+  
+  function onPeopleClick(e) {}
+  function onBuildingClick(e) {
+    
+  }
+
+  function triggerBiomes() {
+    if(biomesList.style.display == "inline-block") {
+      biomesList.style.display = "none";
+      biometrigger.innerHTML = 'Биомы V'
+    } else {
+      biomesList.style.display = "inline-block";
+      biometrigger.innerHTML = '/\\'
+    }
+  }
+
+  function saveMainMap() {
+    downloadhref.href = 'data:application/xml;charset=utf-8, '+mainTable.innerHTML;
+    downloadhref.click();
+  }
+
+  function loadMainMap() {
+    mainTable.innerHTML=prompt('Весь текст из файла сюда');
+  }
+  
+</script>
+</HTML>
