@@ -3,6 +3,7 @@
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8" />
   <link href="misc/w3.css" type="text/css" rel="stylesheet" />
   <link href="misc/w3-theme-amber.css" type="text/css" rel="stylesheet" />
+  <script src="misc/w3.js"></script>
   <TITLE></TITLE>
   <style>
     #mainTable {
@@ -17,99 +18,85 @@
     thead > tr > td {
     text-align: center;
     }
+    
     tbody > tr > td {
     min-width:80px;
     height:80px;
     background-size:cover;
+    border-radius: 40px;
     }
 
+    .border {
+      background-color: #7955489c;
+    }
+    
     .shakal {
-    width:auto !important;
-    min-width:1px !important;
+      width:auto !important;
+      min-width:1px !important;
     }
-
-    td > .food, td > .money, td > .army, td > .people, td > .building {
-    position: absolute;
-    background-size: 100% 100%;
-    text-align: center;
-    }
-
-    td > .money {
-    background-image: url(images/money.png);
-    right:0.3vh;
-    top:0.3vh;
-    width: 3vh;
-    /height: 3.2vh;
-    z-index: 9;
-    font-weight: bold;
-    }
-
-    td > .army {
-    background-image: url(images/shield.png);
-    left:0.3vh;
-    bottom:0.3vh;
-    width: 3vh;
-    /height: 3.2vh;
-    z-index: 9;
-    padding: 1px;
-    padding-bottom: 2px;
-    font-weight: bold;
-    }
+    
     button {
     font-weight: 550;
     }
 
-    td > .people {
-    z-index: 7;
-    }
-
-    td > .building {
-    z-index: 5;
-    background-image: url(images/empty.png);
-    left:2vh;
-    top:2vh;
-    width:50%;
-    height:50%;
-    }
-    /**/
-    .Побережье {
-    background-image: url(images/Побережье.png);
-    ~background-color: #0094FF;
-    }
-
-    .Океан {
-    background-image: url(images/Океан.png);
-    ~background-color: #00137F;
-    }
-
-    /**/
-    .Луг {
-    -background-color: #00AA00;
-    }
-
-    .Холмы {
-    background-image: url(images/Холмы.png);
-    ~background-color: #704500;
-    ~background: linear-gradient(135deg, rgba(0,170,0,1) 0%, rgba(68,43,0,1) 60%);
-    }
-
-    .Лес {
-    background-image: url(images/Лес.png);
-    -background-color: #006309;
+    td > .food, td > .money, td > .army, td > .people, td > .building {
+      position: absolute;
+      background-size: 100% 100%;
+      text-align: center;
+      /overflow: hidden;
     }   
+    
+    td > .food, td > .money, td > .people {
+      background-size: unset;
+      top:3px;
+      width: 18px;
+      height: 36px;
+      z-index: 9;
+      font-weight: bold;
+    }
+    
+    td > .food {
+      background-image: url(images/food.png);
+      right:25px;
+    }
+    
+    td > .people {
+      background-image: url(images/people.png);
+      right:3px;
+    }
 
-    .Болото {
-    background-image: url(images/Болото.png);
-    ~background-color: #00137F;
-    }    
+    td > .army {
+      /background-image: url(images/units/unit2.png);
+      top:0.7vh;
+      left:5%;
+      width: 28px;
+      height: 28px;
+      z-index: 5;
+      padding: 1px;
+      padding-bottom: 2px;
+      /font-weight: bold;
+    }
 
-    /*
+    td > .building {    
+      z-index: 5;
+      background-image: url(images/res/oil.png);
+      left:5%;
+      bottom:0.5vh;
+      width:28px;
+      height:28px;
+    }
+
+    .Побережье { background-image: url(images/biomes/Побережье.png); }
+    .Океан     { background-image: url(images/biomes/Океан.png); }
+    .Холмы     { background-image: url(images/biomes/Холмы.png); }
+    .Лес       { background-image: url(images/biomes/Лес.png); }   
+    .Болото    { background-image: url(images/biomes/Болото.png); }    
+    /* ~background: linear-gradient(135deg, rgba(0,170,0,1) 0%, rgba(68,43,0,1) 60%); */
+
     .Саванна {
     background-color: #7F6A00;
     }
-    */    
-
-    /**/
+    
     .Джунгли {
     background-color: #00633A;
     }
@@ -125,47 +112,142 @@
     .Ледник {
     background-color: #40E0D0;
     }
+    
+    .Мечник { background-image: url(images/units/Мечник.png); }
+    
+    
+    fieldset {
+      display: inline-block;
+      padding: 4px;
+      margin: 3px;
+    }
+    
+    .legend {
+      background-color: white;
+      font-size:10px;
+      margin-top:-5px;
+      font-weight: 550;
+    }
   </style>
 
 </HEAD>
 <script>
   var cntRows    = 10;
   var cntColumns = 15;
+  
+  const myObject = {"TBiomes": [
+    {"Biome": "Побережье"},
+    {"Biome": "Океан"},
+    {"Biome": "Луг"},
+    {"Biome": "Холмы"},
+    {"Biome": "Лес"},
+    {"Biome": "Болото"},
+    {"Biome": "Джунгли"},
+    {"Biome": "Горы"},
+    {"Biome": "Пустыня"},
+    {"Biome": "Ледник"},
+    {"Biome": "Сброс"}
+  ], 
+  "TUnits": [
+    {"Unit": "Мечник", "hp":10, "attack":1, "defence":1, "speed":2, "abilities": ""},
+    {"Unit": "Ладья",  "hp":20, "attack":1, "defence":1, "speed":2, "abilities": ""},
+    {"Unit": "Летучий корабль",  "hp":20, "attack":1, "defence":1, "speed":2, "abilities": ""},
+    {"Unit": "Сброс"}
+  ],
+  "TEmpires": [
+    {"Empire": "Тестовая империя", "color": "#00FF00", "techs": ""},
+    {"Empire": "Сброс", "color": ""}
+  ]}
+  
 </script>
 <!-- <div id="modalSelectBiome" hidden class="w3-theme w3-border w3-center w3-padding" -->
 <!-- style="position:absolute; left:15%; top:10%; "> -->
 <body class="w3-light-green w3-padding" style="overflow:auto">
 
-  <button 
-  onclick="allButtons.style.display == 'none' ? allButtons.style.display = '' : allButtons.style.display = 'none'"
-  >A</button>
-  <span id='allButtons'>
-    <button id='biometrigger' onclick="triggerBiomes()">/\</button>
+  <button onclick="triggerObj(allButtons)">Всё</button>
+  
+  <span id='allButtons' class="w3-leftbar" style="display:inline-block;">
+  
+    <span id='mode_display' class="w3-display-topright w3-margin"></span>
+    <button id='biometrigger' onclick="triggerObj(biomesList)">Биомы</button>
     <fieldset id="biomesList" style="display:inline-block">
-      <button class="Побережье" onclick="applyBiome = this.innerText;">Побережье</button>
-      <button class="Океан" onclick="applyBiome = this.innerText;">Океан</button>
-      <button onclick="applyBiome = this.innerText;" class="Луг">Луг</button>
-      <button onclick="applyBiome = this.innerText;" class="Холмы">Холмы</button>
-      <button onclick="applyBiome = this.innerText;" class="Лес">Лес</button>
-      <button onclick="applyBiome = this.innerText;" class="Болото">Болото</button>
-      <!-- <button onclick="applyBiome = this.innerText;" class="Саванна">Саванна</button> -->
-      <button onclick="applyBiome = this.innerText;" class="Джунгли">Джунгли</button>
-      <button onclick="applyBiome = this.innerText;" class="Горы">Горы</button>
-      <button onclick="applyBiome = this.innerText;" class="Пустыня">Пустыня</button>
-      <button onclick="applyBiome = this.innerText;" class="Ледник">Ледник</button>
-      <button onclick="applyBiome = '';">Сброс</button>
+      <button w3-repeat="TBiomes"
+      class="{{Biome}}" style="margin-right:6px;"
+      onclick="mode = 'biomes';  applyBiome = this.innerText;" >
+        {{Biome}}
+      </button>
     </fieldset>
+    <br />
+    
+    <button id='unittrigger' onclick="triggerObj(unitsList)">Юниты</button>
+    <fieldset id="unitsList" style="">
+      <button w3-repeat="TUnits"
+      class="{{Unit}}2" style="margin-right:6px;"
+      onclick="mode = 'units'; applyUnit = this.innerText;" >
+        {{Unit}}
+      </button>
+    </fieldset>
+    <br />    
+    
+    <button id='empiretrigger' onclick="triggerObj(empiresList)">Империи</button>
+    <fieldset id="empiresList" style="">
+    </fieldset>
+    <br />
+    
     <button onclick="saveMainMap()">Скачать</button>
     <button onclick="loadMainMap()">Загрузить</button>
+    
   </span>
 
-  <table id="mainTable">    
+  <table id="mainTable" class="w3-margin-top">    
   </table> 
+  
   <a id='downloadhref' hidden download="map.txt"></a>
+  
+  <template id="TInnerCell">
+    <div class="cell_data" data-type="{{Unit}}" data-hp="{{hp}}" data-effects=""></div>
+    <div click="onFoodClick()" class="food"></div>
+    <div click="onUnitClick()" class="army"></div>
+    <div click="onPeopleClick()" class="people"></div>
+    <div click="onBuildingClick()" class="building"></div>
+  </template>
+  
+  <template id="TUnit">
+      <div class="unit_data" data-type="{{Unit}}" data-hp="{{hp}}" data-effects=""></div>
+      <img src="images/units/{{Unit}}.png" >
+      <span class="legend" style="">{{hp}}</span>
+  </template>
+  
+  <template id="TEmpireButtons">
+    <button w3-repeat="TEmpires"
+      class="" style="margin-right:6px; background-color:{{color}}"
+      onclick="mode = 'empires'; applyEmpire = '{{color}}'" >
+      {{Empire}}
+    </button>
+  </template>
+  
 </body>
+
 <script>
   var applyBiome = 'Луг';
-  var mode = 'biomes';
+  var applyUnit = '';
+  var applyEmpire = '';
+
+  Object.defineProperty(window, "mode", {
+    get: () => this._mode,
+    set: function (value) {
+      this._mode = value
+      mode_display.innerHTML = value
+    }
+  });
+
+  mode = 'biomes';
+  
+  w3.displayObject("biomesList", myObject);
+  w3.displayObject("unitsList", myObject);
+  
+  empiresList.innerHTML = TEmpireButtons.innerHTML
+  w3.displayObject("empiresList", myObject);
 
   mainTable.createTHead()
   mainTable.createTBody()
@@ -173,9 +255,11 @@
   mainTable.tHead.insertRow(0)
   for(let j=0; j<cntColumns; j++)  {
     mainTable.tHead.rows[0].insertCell(0);
+    mainTable.tHead.rows[0].cells[0].classList = 'border';
     mainTable.tHead.rows[0].cells[0].innerHTML = cntColumns-j-1;
   }
   mainTable.tHead.rows[0].insertCell(0);
+  mainTable.tHead.rows[0].cells[0].classList = 'border'
   mainTable.tHead.rows[0].cells[0].innerHTML = ''
 
   for(let i=0; i<cntRows; i++)  {
@@ -184,44 +268,102 @@
     for(let j=0; j<cntColumns; j++)  {
       mainTable.tBodies[0].rows[0].insertCell(0);
       mainTable.tBodies[0].rows[0].cells[0].classList= 'Луг'
-      mainTable.tBodies[0].rows[0].cells[0].innerHTML = '<div click="onMoneyClick()" class="money"></div><div click="onFoodClick()" class="food"></div><div click="onArmyClick()" class="army"></div><div click="onPeopleClick()" class="people"></div><div click="onBuildingClick()" class="building"></div>';
-      mainTable.tBodies[0].rows[0].cells[0].onclick = onClickCellBiome;
+      mainTable.tBodies[0].rows[0].cells[0].innerHTML = TInnerCell.innerHTML;
+      mainTable.tBodies[0].rows[0].cells[0].onclick = onCellClick;
+      mainTable.tBodies[0].rows[0].cells[0].dataset["x"] = cntColumns-j-1;      
+      mainTable.tBodies[0].rows[0].cells[0].dataset["y"] = cntRows-i-1;      
     }
     
     mainTable.tBodies[0].rows[0].insertCell(0);
-    mainTable.tBodies[0].rows[0].cells[0].classList= 'shakal'
+    mainTable.tBodies[0].rows[0].cells[0].classList= 'shakal border'
     mainTable.tBodies[0].rows[0].cells[0].innerHTML = cntRows-i-1;
   }
 
-  function onClickCellBiome() {
+  function onCellClick() {
     switch (mode) {
-    case 'biomes':
-      if (applyBiome == '')
-        return;
-      this.classList = applyBiome;
-      break;
-    case 'normal':
-      break;
+      case 'biomes':
+        if(applyBiome == "Сброс") 
+          this.classList = "";
+        else
+          this.classList = applyBiome;
+        break;
+      case 'units':
+        if(applyUnit == "Сброс") 
+          getUnit(this).innerHTML = "";
+        else
+          getUnit(this).innerHTML = createUnit(applyUnit)
+        break;
+      case 'empires':
+        if(applyEmpire == "Сброс") 
+          setEmpire(this, "");
+        else
+          setEmpire(this, applyEmpire);
+        break;
+      case 'normal':
+        break;
     }
+    
+  }
+  
+  function createUnit(nName) {
+    w3.displayObject("TUnit", myObject.TUnits.find(e => e.Unit==nName)); 
+    return TUnit.innerHTML 
+  }
+  
+  function getUnit(nobj) {
+    return nobj.querySelector('.army')
+  }
+  
+  function getUnitData(nobj) {
+    return nobj.querySelector('.army').querySelector('.unit_data').dataset
+  }
+  
+  function getData(nobj) {
+    return nobj.querySelector('.cell_data').dataset
+  }
+  
+  function getEmpire(nobj) {
+    return nobj.style.backgroundColor
+  }
+  
+  function setEmpire(nobj, ncolor) {
+    return nobj.style.backgroundColor = ncolor
   }
 
-
-  function onArmyClick(e) {
+  function onUnitClick(e) {
     alert(e)
   }
   
-  function onPeopleClick(e) {}
   function onBuildingClick(e) {
     
   }
+  
+  function setResource() {
+  }
+ 
+  function setBuilding(nobj, nname) {
+    setBGImage(nobj.querySelector('.building'), "buildings/"+nname)
+  }
+  
+  function setBGImage(nobj, nsrc) {
+    nobj.style.backgroundImage = `url(images/${nsrc}.png)`
+  }
+  
+  function onPeopleClick(e) {}
 
   function triggerBiomes() {
-    if(biomesList.style.display == "inline-block") {
-      biomesList.style.display = "none";
-      biometrigger.innerHTML = 'Биомы V'
+    triggerObj(biomesList)
+  } 
+
+  function triggerUnits() {
+    triggerObj(unitsList)
+  }  
+  
+  function triggerObj(nobj) {
+    if(nobj.style.display == "none") {
+      nobj.style.display = "inline-block";
     } else {
-      biomesList.style.display = "inline-block";
-      biometrigger.innerHTML = '/\\'
+      nobj.style.display = "none";
     }
   }
 
@@ -232,6 +374,14 @@
 
   function loadMainMap() {
     mainTable.innerHTML=prompt('Весь текст из файла сюда');
+  }
+  
+  function getCell(nx, ny) {
+    return cell(nx, ny)
+  }
+  
+  function cell(nx, ny) {
+    return mainTable.tBodies[0].rows[ny].cells[nx+1]
   }
   
 </script>
