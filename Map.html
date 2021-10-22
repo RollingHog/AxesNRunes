@@ -35,7 +35,7 @@
     }
 
     #map>tbody>tr>td {
-      padding: 8px;
+      padding: 6px;
       /* border: 1px solid black; */
     }
 
@@ -62,6 +62,7 @@
     .planet tr td {
       border: 1px solid black;
       width: 64px;
+      max-width: 64px;
     }
     
     .cell td {
@@ -75,37 +76,43 @@
       height: 19px;
     }
 
-    .planet .resources {
-      height: 20px;
+    .planet .name {
+      overflow: hidden;
     }
 
-    .resources>td {
+    .planet .affinities, .planet .resources {
+      height: 22px;
+    }
+
+    .affinities>td, .resources>td {
       width: 25% !important;
     }
 
-    .мечник { background-image: url(images/units/мечник.png); }
-    .ладья  { background-image: url(images/units/ладья.png); }
-    .летучий  { background-image: url(images/units/летучий.png); }
+    .мечник     { background-image: url(images/units/мечник.png); }
+    .ладья      { background-image: url(images/units/ладья.png); }
+    .летучий    { background-image: url(images/units/летучий.png); }
 
-    .building  { background-image: url(images/buildings/building.png); }
+    .building   { background-image: url(images/buildings/building.png); }
+    .Столица    { background-image: url(images/buildings/building.png); }
+    .Ферма      { background-image: url(images/buildings/building.png); }
     
     /* биомы */
-    .лес      { background-color: #808000; }
-    .пустыня  { background-color: #ffcc00; }
-    .льды     { background-color: #99ccff; }
-    .пустошь  { background-color: #c0c0c0; }
+    .лес          { background-color: #808000aa; }
+    .пустыня      { background-color: #ffcc00aa; }
+    .льды         { background-color: #99ccffaa; }
+    .пустошь      { background-color: #c0c0c0aa; }
 
-    .Асгард       { background-color: #00f000; }
-    .Муспелльхейм { background-color: #ff6600; }
-    .Нифльхейм    { background-color: #00ffff; }
-    .Хельхейм     { background-color: #808080; }
+    .Асгард       { background-color: #00f000aa; }
+    .Муспелльхейм { background-color: #ff6600aa; }
+    .Нифльхейм    { background-color: #00ffffaa; }
+    .Хельхейм     { background-color: #808080aa; }
 
     .небо         { background:white;           }
 
     .цвет-боги    { background:lightyellow;     }
-    .цвет-огонь   { background:lightcoral;      }
+    .цвет-огонь   { background:lightcoral;      color: white;}
     .цвет-лёд     { background:lightblue;       }
-    .цвет-смерть  { background:lightslategray;  }
+    .цвет-смерть  { background:grey;            color: white;}
     
   </style>
 
@@ -116,9 +123,10 @@
 
 <body class="w3-theme-l2 w3-padding" style="overflow:auto">
 
-    <table id="map">
-
-    </table>
+  <div id="allPage">
+    <table id="map" contenteditable="true"></table>
+    <div id="empires" contenteditable="true"></div>
+  </div>
 
     <br><br><br>
     <div id="main-menu-" hidden2>
@@ -128,48 +136,62 @@
   
     <div id="planet-template" hidden>
       <table class="planet" id="Земля">
-        <tr>
-          <td colspan=2>
-            <table class="cell">
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </table>
-          </td>
-          <td colspan=2>
-            <table class="cell">
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td colspan=2>
-            <table class="cell">
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </table>
-          </td>
-          <td colspan=2>
-            <table class="cell">
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </table>
-          </td>
-        </tr>
-        <tr class="belongs"><td class="name" colspan=4 onclick="edit(this)"></td></tr>
-        <tr class="resources" colspan=4>
+        <tr class="affinities" colspan=4>
           <td class="цвет-боги  "></td>
           <td class="цвет-огонь "></td>
           <td class="цвет-лёд   "></td>
           <td class="цвет-смерть"></td>
         </tr>
+        <tr>
+          <td colspan=2>
+            <table class="cell">
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </table>
+          </td>
+          <td colspan=2>
+            <table class="cell">
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan=2>
+            <table class="cell">
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </table>
+          </td>
+          <td colspan=2>
+            <table class="cell">
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </table>
+          </td>
+        </tr>
+        <tr class="belongs"><td class="name" colspan=4 onclick="editName(this)"></td></tr>
+        <tr class="resources" colspan=4>
+          <td -style="background-color: green;"    ></td>
+          <td style="background-color: burlywood;"></td>
+          <td -style="background-color: lightgrey;"></td>
+          <td class="цвет-боги"                     ></td>
+        </tr>
       </table>
     </div>
+
+    <div id="empire-template" hidden>
+
+    </div>
+
+    <div id="unit-template" hidden></div>
+    <div id="building-template" hidden></div>
 
     <a id='downloadhref' hidden download="map.AnRSave.txt"></a>
 </body>
 
 <script>
+  //Divine, Fire, Ice, Necro
 
   const ROWS_COUNT = 7
   const COLS_COUNT = 11
@@ -177,28 +199,66 @@
   const LAYERS_COUNT = 4
   const CELLS_COUNT = 2
 
+  const EObjTypes = {
+    biome     : 'biome',
+    unit      : 'unit',
+    building  : 'building',
+  }
+
+  const BASE_FOOD   = 2
+  const BASE_METAL  = 2
+  //food modifier, gold?/metal modifier, affinity string, special
   const EBiomes = {
+    list: {
+      'лес':          [2, 0, 'D'    , []  ],
+      'пустыня':      [1, 0, 'F'    , []  ],
+      'льды':         [1, 0, 'I'    , []  ],
+      'пустошь':      [0, 1, 'N'    , []  ],
+
+      'Асгард':       [2, 0, 'DD'   , []  ],
+      'Муспелльхейм': [1, 1, 'FFFF' , []  ],
+      'Нифльхейм':    [1, 1, 'IIII' , []  ],
+      'Хельхейм':     [0, 3, 'NNN'  , []  ],
+
+      'небо'        : [0, 0, ''     , ['небо']  ],
+      'цвет-боги'   : [0, 0, ''     , ['небо']  ],
+      'цвет-огонь'  : [0, 0, ''     , ['небо']  ],
+      'цвет-лёд'    : [0, 0, ''     , ['небо']  ],
+      'цвет-смерть' : [0, 0, ''     , ['небо']  ],
+    },
     base: [
-      'лес',
+      'лес',    
       'пустыня',
-      'льды',
+      'льды'  ,
       'пустошь',
     ],
-    advanced: [
-      'Асгард',
-      'Муспелльхейм',
-      'Нифльхейм',
-      'Хельхейм',
-    ]
   }
 
+  // ATK, DEF, SPECIAL
   const EUnits = {
-    "мечник": {},
-    "ладья": {},
-    "летучий": {},
+    list: {
+      "мечник"  : [],
+      "ладья"   : [],
+      "летучий" : [],
+    }
   }
 
-  const EBuildings = {}
+  // prereq, cost, completionEffects, lastingEffects
+  const EBuildings = {
+    list: {
+      "Столица"       : ["", 0, [], []],
+      "Ферма"         : ["", 0, [], []],
+    }
+  }
+
+  const EAffinities = {
+    dict: {
+      'D': 0,
+      'F': 1,
+      'I': 2,
+      'N': 3,
+    }
+  }
 
   const mapEditorData = {
     mode: null,
@@ -210,20 +270,21 @@
   const TPlanet = {
     populate: function(planet, x, y) {
       let i
+      //belongs to
+      planet.id = `${x}_${y}`
+      planet.rows[3].cells[0].innerHTML = planet.id 
+
       //sky
-      i = 0
+      i = 1
       for(let j=0; j<CELLS_COUNT; j++)  {
-        planet.rows[i].cells[j].className = 'небо'
+        setBiome(planet.rows[i].cells[j], 'небо')
       }
       
       //ground
-      i = 1
+      i = 2
       for(let j=0; j<CELLS_COUNT; j++)  {
-        planet.rows[i].cells[j].className = EBiomes.base[getRandomInt(0,3)]
+        setBiome(planet.rows[i].cells[j], EBiomes.base[getRandomInt(0,3)])
       }
-      
-      //belongs to
-      planet.rows[2].cells[0].innerHTML = `${x}_${y}`
     }
   }
 
@@ -256,11 +317,26 @@
   }
 
   function onCellClick() {
+    let t, arr
     if(this.nextSibling.nextSibling) {
       //left, building
       //if building exists - upgrade?
+      arr = Object.keys(EBuildings.list)
+      t = prompt("Новое здание:\n- - удалить\n"+arr.map((e,i)=>i+' - '+e).join('\n'))
+      if(t && arr[t]) {
+        setBuilding(this, arr[t])
+      } else if(t == '-') {
+        setBuilding(this, '')
+      }
     } else {
       // right, unit
+      arr = Object.keys(EUnits.list)
+      t = prompt("Новый юнит:\n- - удалить\n"+arr.map((e,i)=>i+' - '+e).join('\n'))
+      if(t && arr[t]) {
+        setUnit(this, arr[t])
+      } else if(t == '-') {
+        setUnit(this, '')
+      }
     }
     return
 
@@ -294,8 +370,77 @@
     target.className = objectTextureName
   }
 
-  function setBiome(planetName, cellLevel, cellNumber, biomeName) {
-    getCell(planetName, cellLevel, cellNumber).className = biomeName
+  function setBuilding(cell, objectTextureName) {
+    planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
+    cell.className = objectTextureName
+  }
+
+  function setUnit(cell, objectTextureName) {
+    planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
+    //TODO check prev and recount affinities
+    cell.className = objectTextureName
+    changeAffinity  (planet, EUnits.list[objectTextureName][2])
+    changeResources (planet, EUnits.list[objectTextureName])
+  }
+
+  function setBiome(cell, biomeName) {
+    const planet = cell.parentNode.parentNode.parentNode
+    //TODO check prev and recount affinities
+    if(cell.className) {
+      changeAffinity  (planet, EBiomes.list[cell.className][2], true)
+      changeResources (planet, EBiomes.list[cell.className], true)
+    }
+    cell.className = biomeName
+    updatePlanetResources(planet, EObjTypes.biome, biomeName)
+  }
+
+  function updatePlanetResources(planet, objType, objName, revert = false) {
+    let affinityStr, resourceStr
+    switch(objType) {
+      case EObjTypes.biome:
+        affinityStr = EBiomes.list[objName][2]
+        resourceStr = EBiomes.list[objName].slice(0,2)
+        if(!EBiomes.list[objName][3].includes('небо')) {
+          resourceStr[0] += BASE_FOOD
+          resourceStr[1] += BASE_METAL 
+        }
+        break;
+      case EObjTypes.unit: 
+        break;
+      case EObjTypes.building: 
+        break;
+    }
+    changeAffinity  (planet, affinityStr, revert)
+    changeResources (planet, resourceStr, revert)
+  }
+
+  function changeAffinity(planet, affinityString, revert = false) {
+    affinityString = affinityString.trim()
+    if(!affinityString) return
+    // let total = {}
+    // const d = affinityString
+    //   .toUpperCase()
+    //   .split('')
+    //   .forEach(x => total[x] ? total[x]+=1 : total[x]=1 )
+    const target = planet.querySelector('.affinities').children[EAffinities.dict[affinityString.charAt()]]
+    if(!target.innerText) target.innerText = 0
+    if(!revert)
+      target.innerText = +target.innerText + affinityString.length
+    else
+      target.innerText = +target.innerText - affinityString.length
+
+    if(+target.innerText <= 0) target.innerText = ''
+  }
+
+  //food, metal, two types of souls
+  function changeResources(planet, resourceArray, revert = false) {
+    const list = planet.querySelector('.resources').children
+
+    for (let i in list) {
+      if(!resourceArray[i]) continue
+      if(!list[i].innerText) list[i].innerText = 0
+      list[i].innerText = +list[i].innerText + resourceArray[i]
+    }
   }
 
   function getCell(planetName, cellLevel, cellNumber) {
@@ -305,20 +450,28 @@
   function getCellByXY(x, y) {
     return map.tBodies[0].rows[y].cells[x+1]
   }
-  
+
+  function editName(el) {
+    const res = prompt("", el.innerHTML)
+    if(res) el.innerHTML = capitalizeString(res)
+  }
 
   function edit(el) {
     const res = prompt("", el.innerHTML)
     if(res) el.innerHTML = res
   }
+
+  function capitalizeString(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
  
-  function saveMap() {
-    downloadhref.href = 'data:application/xml;charset=utf-8, '+map.innerHTML;
+  function savePage() {
+    downloadhref.href = 'data:application/xml;charset=utf-8, '+allPage.innerHTML;
     downloadhref.click();
   }
 
-  function loadMap() {
-    map.innerHTML=prompt('Весь текст из файла сюда');
+  function loadPage() {
+    allPage.innerHTML=prompt('Весь текст из файла сюда');
   }
 
   function init() {
