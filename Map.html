@@ -205,6 +205,23 @@
     building  : 'building',
   }
 
+  const EResourceTypes = {
+    food : 'food',
+    metal : 'metal',
+    souls : 'souls',
+    pantheon : 'pantheon',
+  }
+
+  const EBiomeSpecials = {
+    isSky: "небо",
+    //advanced biome
+    isAdv: "улучш.",
+  }
+
+  const INITIAL_RESOURCES = {
+    PLANET: [0, 0, 3, 0],
+    EMPIRE: [5, 5, 0, 0]
+  }
   const BASE_FOOD   = 2
   const BASE_METAL  = 2
   //food modifier, gold?/metal modifier, affinity string, special
@@ -232,22 +249,50 @@
       'льды'  ,
       'пустошь',
     ],
+    relations: {
+      'лес':          [1, 0],
+      'Асгард':       [2, 0],
+      'цвет-боги'   : [1, 0],
+
+      'пустыня':      [0, 1],
+      'Муспелльхейм': [0, 2],
+      'цвет-огонь'  : [0, 1],
+
+      'льды':         [0, -1],
+      'Нифльхейм':    [0, -2],
+      'цвет-лёд'    : [0, -1],
+      
+      'пустошь':      [-1, 0],
+      'Хельхейм':     [-2, 0],
+      'цвет-смерть' : [-1, 0],
+
+      'небо'        : [0, 0],
+    }
   }
 
-  // ATK, DEF, SPECIAL
+  // ATK, DEF, MAINTANCE, SPECIAL
   const EUnits = {
     list: {
       "мечник"  : [],
       "ладья"   : [],
       "летучий" : [],
+      // Divine
+      // Fire
+      // Ice
+      // Necromancy
     }
   }
 
-  // prereq, cost, completionEffects, lastingEffects
+  // prereq, cost, completionEffects[resources, affinities, other], lastingEffects
   const EBuildings = {
     list: {
       "Столица"       : ["", 0, [], []],
       "Ферма"         : ["", 0, [], []],
+      // Divine
+      // Fire
+      "Ферма"         : ["", 0, [], []],
+      // Ice
+      // Necromancy
     }
   }
 
@@ -285,6 +330,8 @@
       for(let j=0; j<CELLS_COUNT; j++)  {
         setBiome(planet.rows[i].cells[j], EBiomes.base[getRandomInt(0,3)])
       }
+
+      changeResources(planet, INITIAL_RESOURCES.PLANET)
     }
   }
 
@@ -394,13 +441,21 @@
     updatePlanetResources(planet, EObjTypes.biome, biomeName)
   }
 
+  function countBiomeRelations(biome1, biome2) {
+    let 
+      p1 = EBiomes.relations[biome1], 
+      p2 = EBiomes.relations[biome2]
+    return Math.abs(p1[0]-p2[0])+Math.abs(p1[1]-p2[1])
+  }
+
   function updatePlanetResources(planet, objType, objName, revert = false) {
     let affinityStr, resourceStr
     switch(objType) {
       case EObjTypes.biome:
         affinityStr = EBiomes.list[objName][2]
         resourceStr = EBiomes.list[objName].slice(0,2)
-        if(!EBiomes.list[objName][3].includes('небо')) {
+        //FIXME move this to initialization
+        if(!EBiomes.list[objName][3].includes(EBiomeSpecials.isSky)) {
           resourceStr[0] += BASE_FOOD
           resourceStr[1] += BASE_METAL 
         }
