@@ -110,9 +110,9 @@
       width: 100%;
     }
 
-    .мечник     { background-image: url(images/units/мечник.png); }
-    .ладья      { background-image: url(images/units/ладья.png); }
-    .летучий    { background-image: url(images/units/летучий.png); }
+    .мечник           { background-image: url(images/units/мечник.png); }
+    .ладья            { background-image: url(images/units/ладья.png); }
+    .летучий_корабль  { background-image: url(images/units/летучий_корабль.png); }
 
     .building   { background-image: url(images/buildings/building.png); }
     .Артефакт   { background-image: url(images/buildings/Артефакт.png); }
@@ -359,7 +359,7 @@
     list: {
       "мечник"  : [],
       "ладья"   : [],
-      "летучий" : [],
+      "летучий_корабль" : [],
       // Divine
       // Fire
       // Ice
@@ -787,11 +787,11 @@
     }
 
     for (const i in EBuildings.list) {
-      buildings_test.innerHTML += `<td class='${i}'>`
+      buildings_test.innerHTML += `<td class='${i}' title='${i}'>`
     }
 
     for (const i in EUnits.list) {
-      units_test.innerHTML += `<td class='${i}'>`
+      units_test.innerHTML += `<td class='${i}'  title='${i}'>`
     }
 
     // placeObject("Земля", 0,1,1,"летучий")
