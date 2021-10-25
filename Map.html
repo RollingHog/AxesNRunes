@@ -113,7 +113,9 @@
 
     .building   { background-image: url(images/buildings/building.png); }
     .Столица    { background-image: url(images/buildings/building.png); }
-    .Ферма      { background-image: url(images/buildings/building.png); }
+    .Ферма      { background-image: url(images/buildings/Ферма.png); }
+    .Шахта      { background-image: url(images/buildings/Шахта.png); }
+    .Храм       { background-image: url(images/buildings/Храм.png); }
     
     /* биомы */
     .лес          { background-color: #808000aa; }
@@ -132,6 +134,10 @@
     .цвет-огонь   { background:lightcoral;      color: white;}
     .цвет-лёд     { background:lightblue;       }
     .цвет-смерть  { background:grey;            color: white;}
+
+    .цвет-еда     { background:green;           color: white;}
+    .цвет-руда    { background:sandybrown;      color: white;}
+    .цвет-души    { background:lightgrey;       }
     
   </style>
 
@@ -143,6 +149,7 @@
 <body class="w3-theme-l2 w3-padding" style="overflow:auto">
 
   <div id="allPage">
+    <style id="empires-stylesheet"></style>
     <table id="map" contenteditable="true"></table>
     <br><br><br>
     <div id="empires" contenteditable="true"></div>
@@ -150,8 +157,8 @@
 
     <br>
     <div id="main-menu-" hidden2>
-      <button onclick="saveMap()">Save</button>
-      <button onclick="loadMap()">Load</button>
+      <button onclick="savePage()">Save</button>
+      <button onclick="loadPage()">Load</button>
     </div>
     <br>
   
@@ -193,10 +200,10 @@
         </tr>
         <tr class="belongs"><td class="name" colspan=4 onclick="editName(this)"></td></tr>
         <tr class="resources" colspan=4>
-          <td -style="background-color: green;"    ></td>
-          <td style="background-color: burlywood;"></td>
-          <td -style="background-color: lightgrey;"></td>
-          <td class="цвет-боги"                     ></td>
+          <td class="цвет-еда"  ></td>
+          <td class="цвет-руда" ></td>
+          <td class="цвет-души" ></td>
+          <td class="цвет-боги" ></td>
         </tr>
       </table>
     </div>
@@ -345,14 +352,16 @@
     }
   }
 
+  //TODO add units/buildings table for visual testing
   // prereq, cost, completionEffects[resources, affinities, other], lastingEffects
   const EBuildings = {
     list: {
       "Столица"       : ["", 0, [], []],
       "Ферма"         : ["", 0, [], []],
+      "Шахта"         : ["", 0, [], []],
       // Divine
+      "Храм"          : ["", 0, [], []],
       // Fire
-      "Ферма"         : ["", 0, [], []],
       // Ice
       // Necromancy
     }
