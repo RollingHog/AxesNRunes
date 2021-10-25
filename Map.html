@@ -33,13 +33,9 @@
       overflow: hidden;
       background-color: darkslateblue;
     }
-    
-    #map>thead>tr>td {
-    }
 
     #map>tbody>tr>td {
       padding: 8px;
-      /* border: 1px solid black; */
     }
 
     .shakal {
@@ -91,6 +87,26 @@
       width: 25% !important;
     }
 
+    table.empire {
+      border: 1px solid black;
+      border-collapse: collapse;
+      width: 33%;
+      text-align: center;
+    }
+
+    table.empire>tbody>tr>td {
+      border: 1px solid black;
+      width: 25%;
+    }
+
+    .empire select {
+      background-color: transparent;
+      border: 0;
+      appearance: none;
+      text-align: center;
+      width: 100%;
+    }
+
     .мечник     { background-image: url(images/units/мечник.png); }
     .ладья      { background-image: url(images/units/ладья.png); }
     .летучий    { background-image: url(images/units/летучий.png); }
@@ -128,14 +144,16 @@
 
   <div id="allPage">
     <table id="map" contenteditable="true"></table>
+    <br><br><br>
     <div id="empires" contenteditable="true"></div>
   </div>
 
-    <br><br><br>
+    <br>
     <div id="main-menu-" hidden2>
       <button onclick="saveMap()">Save</button>
       <button onclick="loadMap()">Load</button>
     </div>
+    <br>
   
     <div id="planet-template" hidden>
       <table class="planet" id="Земля">
@@ -183,8 +201,49 @@
       </table>
     </div>
 
-    <div id="empire-template" hidden>
-
+    <div id="empire-template" hidden2 contenteditable="true">
+      <table class="empire">
+        <tbody>
+          <tr><th colspan=4>Империянейм</th></tr>
+          <tr>
+            <td>Цвет</td>
+            <td>Родной мир</td>
+            <td>Тип магии</td>
+            <td>Биом</tdБ>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>
+              <select name="">
+                <option value="Боги">Боги</option>
+                <option value="Огонь">Огонь</option>
+                <option value="Лед">Лед</option>
+                <option value="Смерть">Смерть</option>
+              </select>
+            </td>
+            <td>
+              <select name="">
+                <option value="лес">Лес</option>
+                <option value="пустыня">Пустыня</option>
+                <option value="льды">Льды</option>
+                <option value="пустошь">Пустошь</option>
+                <!-- <option value="Асгард">Асгард</option>
+                <option value="Муспелльхейм">Муспелльхейм</option>
+                <option value="Нифльхейм">Нифльхейм</option>
+                <option value="Хельхейм">Хельхейм</option> -->
+              </select>
+            </td>
+          </tr>
+          <tr><td colspan="4">&nbsp;</td></tr>
+          <tr>
+            <td>Еда</td>
+            <td>&nbsp;</td>
+            <td>Руда</td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div id="unit-template" hidden></div>
@@ -367,23 +426,24 @@
   }
 
   function onCellClick() {
-    let t, arr
+    let t, objs
     if(this.nextSibling.nextSibling) {
       //left, building
       //if building exists - upgrade?
-      arr = Object.keys(EBuildings.list)
-      t = prompt("Новое здание:\n- - удалить\n"+arr.map((e,i)=>i+' - '+e).join('\n'))
-      if(t && arr[t]) {
-        setBuilding(this, arr[t])
+      objs = Object.keys(EBuildings.list)
+      // this.innerHTML = '<select>' + objs.map(e => `<option value=${e}>${e}`).join('\n')
+      t = prompt("Новое здание:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
+      if(t && objs[t]) {
+        setBuilding(this, objs[t])
       } else if(t == '-') {
         setBuilding(this, '')
       }
     } else {
       // right, unit
-      arr = Object.keys(EUnits.list)
-      t = prompt("Новый юнит:\n- - удалить\n"+arr.map((e,i)=>i+' - '+e).join('\n'))
-      if(t && arr[t]) {
-        setUnit(this, arr[t])
+      objs = Object.keys(EUnits.list)
+      t = prompt("Новый юнит:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
+      if(t && objs[t]) {
+        setUnit(this, objs[t])
       } else if(t == '-') {
         setUnit(this, '')
       }
