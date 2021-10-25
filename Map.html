@@ -3,6 +3,8 @@
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8" />
   <link href="misc/w3.css" type="text/css" rel="stylesheet" />
   <link href="misc/w3-theme-amber.css" type="text/css" rel="stylesheet" />
+  <!-- TODO use parser from StarDust to autoparse yEd graphs? -->
+  <script src="tech/ETechTree.data.js"></script>
   <TITLE></TITLE>
   <style>
     body {
@@ -208,10 +210,10 @@
         </tr>
         <tr class="belongs"><td class="name" colspan=4></td></tr>
         <tr class="resources" colspan=4>
-          <td class="цвет-еда"  ></td>
-          <td class="цвет-руда" ></td>
-          <td class="цвет-души" ></td>
-          <td class="цвет-боги" ></td>
+          <td class="цвет-еда"  title="Еда"></td>
+          <td class="цвет-руда" title="Руда"></td>
+          <td class="цвет-души" title="Души"></td>
+          <td class="цвет-боги" title="Боги"></td>
         </tr>
       </table>
     </div>
@@ -366,17 +368,17 @@
   }
 
   //TODO add units/buildings table for visual testing
-  // prereq, cost, completionEffects[resources, affinities, other], lastingEffects (same array)
+  // prereq, cost, completionEffects[resources, affinities, other], repeatingEffects (same array)
   const EBuildings = {
     list: {
       //pregen
-      "Артефакт"       : ["", 0, [], []],
+      "Артефакт"      : ["", "", [], []],
 
-      "Столица"       : ["", 0, [], []],
-      "Ферма"         : ["", 0, [], []],
-      "Шахта"         : ["", 0, [], []],
+      "Столица"       : ["", "", [], []],
+      "Ферма"         : ["", "", [], []],
+      "Шахта"         : ["", "", [], []],
       // Divine
-      "Храм"          : ["", 0, [], []],
+      "Храм"          : ["", "", [], []],
       // Fire
       // Ice
       // Necromancy
