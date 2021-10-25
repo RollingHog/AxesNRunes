@@ -204,7 +204,7 @@
             </table>
           </td>
         </tr>
-        <tr class="belongs"><td class="name" colspan=4 onclick="editName(this)"></td></tr>
+        <tr class="belongs"><td class="name" colspan=4></td></tr>
         <tr class="resources" colspan=4>
           <td class="цвет-еда"  ></td>
           <td class="цвет-руда" ></td>
@@ -217,7 +217,7 @@
     <div id="empire-template" hidden2 contenteditable="true">
       <table class="empire">
         <tbody>
-          <tr><th colspan=4>Империянейм</th></tr>
+          <tr><th class="empire-name" colspan=4>Империянейм</th></tr>
           <tr>
             <td>Цвет</td>
             <td>Родной мир</td>
@@ -225,7 +225,7 @@
             <td>Биом</tdБ>
           </tr>
           <tr>
-            <td>&nbsp;</td>
+            <td class="empire-color">&nbsp;</td>
             <td>&nbsp;</td>
             <td>
               <select name="">
@@ -590,8 +590,45 @@
   }
 
   function editName(el) {
+    if(el instanceof Event) el = el.target
     const res = prompt("", el.innerHTML)
     if(res) el.innerHTML = capitalizeString(res)
+    //after name first set - we never change it, we only select empire
+    el.onclick = selectEmpireOnEl
+    selectEmpireOnEl(el)
+  }
+
+  function selectEmpireOnEl(el) {
+    if(el instanceof Event) el = el.target
+    let objs = Object.keys(getEmpiresList())
+    let t = prompt( "Выбрать империю:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
+    if(t && objs[t]) {
+        setPlanetOwner(el, objs[t])
+      } else if(t == '-') {
+        setPlanetOwner(el, null)
+      }
+  }
+
+  function getEmpiresList() {
+    //TODO replace with refreshing JS structure instead of html parsing every time
+    const empires = Array.from(document.querySelectorAll('.empire'))
+    let res = {}
+    empires.forEach( el => {
+      res[ el.querySelector('.empire-name').innerHTML ] = {
+        color: el.querySelector('.empire-color').innerText.trim()
+      }
+    } )
+    return res
+  }
+
+  function setPlanetOwner(nameEl, empireName) {
+    const list = getEmpiresList()
+    //TODO add empire statistics changing
+    //TODO replace with changing empire class, see empires-stylesheet
+    if(empireName)
+      nameEl.parentNode.style.backgroundColor = list[empireName].color
+    else
+      nameEl.parentNode.style.backgroundColor = 'transparent'
   }
 
   function edit(el) {
@@ -646,6 +683,10 @@
 
     for(let i of Array.from(document.querySelectorAll('.cell>tbody>tr>td'))) {
       i.onclick = onCellClick
+    }
+
+    for(let i of Array.from(document.querySelectorAll('.belongs>.name'))) {
+      i.onclick = editName
     }
 
     for (const i in EBuildings.list) {
