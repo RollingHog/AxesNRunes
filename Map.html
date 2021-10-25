@@ -293,6 +293,8 @@
   const ROWS_COUNT = 6
   const COLS_COUNT = 12
 
+  const SPICY_BIOME_GENERATION = true
+
   const LAYERS_COUNT = 4
   const CELLS_COUNT = 2
 
@@ -439,7 +441,10 @@
       let biome = null
         , cell = null
       for(let j=0; j<CELLS_COUNT; j++)  {
-        biome = EBiomes.base[getRandomInt(0,3)]
+        if(!SPICY_BIOME_GENERATION)
+          biome = EBiomes.base[getRandomInt(0,3)]
+        else
+          biome = Object.keys(EBiomes.list)[getRandomInt(0,7-getRandomInt(0,1)*4)]
         cell = planet.rows[i].cells[j]
         setBiome(cell, biome)
         if (biome == 'льды' || biome == 'пустыня') {
