@@ -420,7 +420,39 @@
         setBiome(planet.rows[i].cells[j], EBiomes.base[getRandomInt(0,3)])
       }
 
-      changeResources(planet, INITIAL_RESOURCES.PLANET)
+      TPlanet.updateResources(planet, INITIAL_RESOURCES.PLANET)
+    },
+    params: {
+      update: function (planetName, resourceArray, affinityString, revert = false) {
+        TPlanet.updateResources (planetName, resourceArray, revert)
+        TPlanet.updateAffinity  (planetName, affinityString, revert)
+      },
+    },
+    //food, metal, two types of souls
+    updateResources: function (planet, resourceArray, revert = false) {
+      const list = planet.querySelector('.resources').children
+      for (let i in list) {
+        if(!resourceArray[i]) continue
+        if(!list[i].innerText) list[i].innerText = 0
+        list[i].innerText = +list[i].innerText + resourceArray[i]
+      }
+    }, 
+    updateAffinity: function  (planet, affinityString, revert = false) {
+      affinityString = affinityString.trim()
+      if(!affinityString) return
+      // let total = {}
+      // const d = affinityString
+      //   .toUpperCase()
+      //   .split('')
+      //   .forEach(x => total[x] ? total[x]+=1 : total[x]=1 )
+      const target = planet.querySelector('.affinities').children[EAffinities.dict[affinityString.charAt()]]
+      if(!target.innerText) target.innerText = 0
+      if(!revert)
+        target.innerText = +target.innerText + affinityString.length
+      else
+        target.innerText = +target.innerText - affinityString.length
+
+      if(+target.innerText <= 0) target.innerText = ''
     }
   }
 
@@ -516,16 +548,14 @@
     planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
     //TODO check prev and recount affinities
     cell.className = objectTextureName
-    changeAffinity  (planet, EUnits.list[objectTextureName][2])
-    changeResources (planet, EUnits.list[objectTextureName])
+    TPlanet.params.update(planet, EUnits.list[objectTextureName], EUnits.list[objectTextureName][2])
   }
 
   function setBiome(cell, biomeName) {
     const planet = cell.parentNode.parentNode.parentNode
     //TODO check prev and recount affinities
     if(cell.className) {
-      changeAffinity  (planet, EBiomes.list[cell.className][2], true)
-      changeResources (planet, EBiomes.list[cell.className], true)
+      TPlanet.params.update(planet, EBiomes.list[cell.className], EBiomes.list[cell.className][2], true)
     }
     cell.className = biomeName
     updatePlanetResources(planet, EObjTypes.biome, biomeName)
@@ -555,8 +585,7 @@
       case EObjTypes.building: 
         break;
     }
-    changeAffinity  (planet, affinityStr, revert)
-    changeResources (planet, resourceStr, revert)
+    TPlanet.params.update(planet, resourceStr, affinityStr, revert)
   }
 
   function getPlanetResources(planetName) {
@@ -576,35 +605,6 @@
         = Math.max(+root.qs('.food-income').innerText - +resources[0], 0)
       root.qs('.ore-income').innerText   
         = Math.max(+root.qs('.ore-income').innerText  - +resources[1], 0)
-    }
-  }
-
-  function changeAffinity(planet, affinityString, revert = false) {
-    affinityString = affinityString.trim()
-    if(!affinityString) return
-    // let total = {}
-    // const d = affinityString
-    //   .toUpperCase()
-    //   .split('')
-    //   .forEach(x => total[x] ? total[x]+=1 : total[x]=1 )
-    const target = planet.querySelector('.affinities').children[EAffinities.dict[affinityString.charAt()]]
-    if(!target.innerText) target.innerText = 0
-    if(!revert)
-      target.innerText = +target.innerText + affinityString.length
-    else
-      target.innerText = +target.innerText - affinityString.length
-
-    if(+target.innerText <= 0) target.innerText = ''
-  }
-
-  //food, metal, two types of souls
-  function changeResources(planet, resourceArray, revert = false) {
-    const list = planet.querySelector('.resources').children
-
-    for (let i in list) {
-      if(!resourceArray[i]) continue
-      if(!list[i].innerText) list[i].innerText = 0
-      list[i].innerText = +list[i].innerText + resourceArray[i]
     }
   }
 
