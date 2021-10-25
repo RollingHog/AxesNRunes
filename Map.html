@@ -416,8 +416,15 @@
       
       //ground
       i = 2
+      let biome = null
+        , cell = null
       for(let j=0; j<CELLS_COUNT; j++)  {
-        setBiome(planet.rows[i].cells[j], EBiomes.base[getRandomInt(0,3)])
+        biome = EBiomes.base[getRandomInt(0,3)]
+        cell = planet.rows[i].cells[j]
+        setBiome(cell, biome)
+        if (biome == 'льды' || biome == 'пустыня') {
+          setBuilding(cell.children[0].children[0].rows[0].cells[0], 'артефакт')
+        }
       }
 
       TPlanet.updateResources(planet, INITIAL_RESOURCES.PLANET)
@@ -536,12 +543,12 @@
 
   function placeObject(planetName, cellLevel, cellNumber, objectType, objectTextureName, ownerColor) {
     const target = getCell(planetName, cellLevel, cellNumber).children[0].rows[0].cells[objectType]
-    target.className = objectTextureName
+    target.className = capitalizeString(objectTextureName)
   }
 
   function setBuilding(cell, objectTextureName) {
     planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
-    cell.className = objectTextureName
+    cell.className = capitalizeString(objectTextureName)
   }
 
   function setUnit(cell, objectTextureName) {
