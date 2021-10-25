@@ -92,6 +92,7 @@
       border-collapse: collapse;
       width: 33%;
       text-align: center;
+      background-color: white;
     }
 
     table.empire>tbody>tr>td {
@@ -158,7 +159,7 @@
     <style id="empires-stylesheet"></style>
     <table id="map" contenteditable="true"></table>
     <br><br><br>
-    <div id="empires" contenteditable="true"></div>
+    <div id="empires-list" contenteditable="true"></div>
   </div>
 
     <br>
@@ -215,7 +216,7 @@
     </div>
 
     <div id="empire-template" hidden2 contenteditable="true">
-      <table class="empire">
+      <table id="Империянейм" class="empire">
         <tbody>
           <tr><th class="empire-name" colspan=4>Империянейм</th></tr>
           <tr>
@@ -225,8 +226,8 @@
             <td>Биом</tdБ>
           </tr>
           <tr>
-            <td class="empire-color">&nbsp;</td>
-            <td>&nbsp;</td>
+            <td class="empire-color">red</td>
+            <td onclick="choosingHomeworld.start(this)">&nbsp;</td>
             <td>
               <select name="">
                 <option value="Боги">Боги</option>
@@ -251,9 +252,9 @@
           <tr><td colspan="4">&nbsp;</td></tr>
           <tr>
             <td>Еда</td>
-            <td>&nbsp;</td>
+            <td class="food-income">0</td>
             <td>Руда</td>
-            <td>&nbsp;</td>
+            <td class="ore-income" >0</td>
           </tr>
         </tbody>
       </table>
@@ -393,6 +394,8 @@
   }
 
   const log = console.log
+  HTMLElement.prototype.qs = HTMLElement.prototype.querySelector
+  HTMLElement.prototype.qsa = HTMLElement.prototype.querySelectorAll
 
   const TPlanet = {
     populate: function(planet, x, y) {
@@ -552,6 +555,26 @@
     changeResources (planet, resourceStr, revert)
   }
 
+  function getPlanetResources(planetName) {
+    const el = getEl(planetName)
+    if(!el) return null
+    return Array.from(el.querySelector('.resources').cells)
+      .map(e => e.innerText)
+  }
+
+  function updateEmpireResources(empireName, resources, invert = false) {
+    const root = document.querySelector(`#${empireName}.empire`)
+    if(!invert) {
+      root.qs('.food-income').innerText  = +root.qs('.food-income').innerText + +resources[0]
+      root.qs('.ore-income').innerText   = +root.qs('.ore-income').innerText  + +resources[1]
+    } else {
+      root.qs('.food-income').innerText  
+        = Math.max(+root.qs('.food-income').innerText - +resources[0], 0)
+      root.qs('.ore-income').innerText   
+        = Math.max(+root.qs('.ore-income').innerText  - +resources[1], 0)
+    }
+  }
+
   function changeAffinity(planet, affinityString, revert = false) {
     affinityString = affinityString.trim()
     if(!affinityString) return
@@ -592,43 +615,92 @@
   function editName(el) {
     if(el instanceof Event) el = el.target
     const res = prompt("", el.innerHTML)
-    if(res) el.innerHTML = capitalizeString(res)
+    if(!res) return
+    if(getEl(res) && res != el.innerHTML) {
+      alert('Нельзя, имя неуникально: '+res)
+      return
+    }
+    getEl(el.innerHTML).id = capitalizeString(res)
+    el.innerHTML = capitalizeString(res)
     //after name first set - we never change it, we only select empire
     el.onclick = selectEmpireOnEl
     selectEmpireOnEl(el)
   }
 
+  const choosingHomeworld = {
+    start: function(el) {
+      el.innerText = '?'
+      choosingHomeworld.el = el
+    },
+    done: function (el) {
+      const empireName = choosingHomeworld.el.parentNode.parentNode.rows[0].cells[0].innerText
+      choosingHomeworld.el.innerText = el.innerText
+      setPlanetOwner(el, empireName)
+      choosingHomeworld.el = null
+    },
+    getEmpireName: function () {
+      return 
+    },
+    el: null
+  }
+
   function selectEmpireOnEl(el) {
     if(el instanceof Event) el = el.target
-    let objs = Object.keys(getEmpiresList())
+    if(choosingHomeworld.el) {
+      //we're choosing homeworld
+      choosingHomeworld.done(el)
+      return
+    }
+    let objs = Object.keys(getEmpiresList().colors)
     let t = prompt( "Выбрать империю:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
     if(t && objs[t]) {
         setPlanetOwner(el, objs[t])
       } else if(t == '-') {
         setPlanetOwner(el, null)
       }
-  }
+    }
 
   function getEmpiresList() {
     //TODO replace with refreshing JS structure instead of html parsing every time
+    //TODO add when testing ends: .empires-list>
     const empires = Array.from(document.querySelectorAll('.empire'))
-    let res = {}
+    let res = {
+      colors: {}
+    }
     empires.forEach( el => {
-      res[ el.querySelector('.empire-name').innerHTML ] = {
-        color: el.querySelector('.empire-color').innerText.trim()
-      }
-    } )
+      res.colors[ el.querySelector('.empire-name').innerHTML ] 
+        = el.querySelector('.empire-color').innerText.trim()     
+    })
     return res
   }
 
   function setPlanetOwner(nameEl, empireName) {
-    const list = getEmpiresList()
+    const list = getEmpiresList().colors
+    const invList = swapKnV(list)
+    const ress = getPlanetResources(nameEl.innerText)
+    let bgs = nameEl.parentNode.style
+    if(list[empireName] 
+      && bgs.backgroundColor == list[empireName]
+    ) return null
+
+    if(invList[bgs.backgroundColor]) {
+      updateEmpireResources(invList[bgs.backgroundColor], ress, true)
+    }
+    // if(nameEl.parentNode.style.backgroundColor)
     //TODO add empire statistics changing
     //TODO replace with changing empire class, see empires-stylesheet
-    if(empireName)
-      nameEl.parentNode.style.backgroundColor = list[empireName].color
+    if(empireName) {
+      bgs.backgroundColor = list[empireName]
+      updateEmpireResources(empireName, ress)
+    }
     else
-      nameEl.parentNode.style.backgroundColor = 'transparent'
+      bgs.backgroundColor = 'transparent'
+  }
+
+  function swapKnV(obj) {
+    return Object.fromEntries(
+      Object.entries(obj).map( ([k, v]) => [v, k])
+    )
   }
 
   function edit(el) {
