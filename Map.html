@@ -648,6 +648,14 @@
     el: null
   }
 
+  function editEmpireName(el) {
+    if(el instanceof Event) el = el.target
+    const newName = prompt("", el.innerHTML)
+    if(!newName) return
+    getEl(el.innerHTML).id = newName
+    el.innerHTML = newName
+  }
+
   function selectEmpireOnEl(el) {
     if(el instanceof Event) el = el.target
     if(choosingHomeworld.el) {
@@ -763,6 +771,10 @@
 
     for(let i of Array.from(document.querySelectorAll('.belongs>.name'))) {
       i.onclick = editName
+    }
+
+    for(let i of Array.from(document.querySelectorAll('.empire-name'))) {
+      i.onclick = editEmpireName
     }
 
     for (const i in EBuildings.list) {
