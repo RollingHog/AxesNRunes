@@ -440,11 +440,16 @@
       i = 2
       let biome = null
         , cell = null
+        // , prev_biome = null
       for(let j=0; j<CELLS_COUNT; j++)  {
-        if(!SPICY_BIOME_GENERATION)
-          biome = EBiomes.base[getRandomInt(0,3)]
-        else
-          biome = Object.keys(EBiomes.list)[getRandomInt(0,7-getRandomInt(0,1)*4)]
+        // do {
+          if(!SPICY_BIOME_GENERATION)
+            biome = EBiomes.base[getRandomInt(0,3)]
+          else
+            biome = Object.keys(EBiomes.list)[getRandomInt(0,7-getRandomInt(0,1)*4)]
+        // } while(prev_biome && calculateBiomeRelations(prev_biome, biome)<2)
+        // prev_biome = biome
+
         cell = planet.rows[i].cells[j]
         setBiome(cell, biome)
         if (biome == 'льды' || biome == 'пустыня') {
@@ -593,11 +598,13 @@
     updatePlanetResources(planet, EObjTypes.biome, biomeName)
   }
 
-  function countBiomeRelations(biome1, biome2) {
+  function calculateBiomeRelations(biome1, biome2) {
     let 
       p1 = EBiomes.relations[biome1], 
       p2 = EBiomes.relations[biome2]
-    return Math.abs(p1[0]-p2[0])+Math.abs(p1[1]-p2[1])
+    return Math.floor(Math.sqrt(
+      Math.pow((p1[0]-p2[0]),2)+Math.pow((p1[1]-p2[1]),2)
+    ))
   }
 
   function updatePlanetResources(planet, objType, objName, revert = false) {
