@@ -138,6 +138,12 @@
     .цвет-еда     { background:green;           color: white;}
     .цвет-руда    { background:sandybrown;      color: white;}
     .цвет-души    { background:lightgrey;       }
+
+    #image_tests td {
+      height: 26px;
+      width: 28px;
+      background-color: white;
+    }
     
   </style>
 
@@ -255,6 +261,11 @@
 
     <div id="unit-template" hidden></div>
     <div id="building-template" hidden></div>
+
+    <br><table id="image_tests">
+      <tr id="buildings_test"></tr>
+      <tr id="units_test"></tr>
+    </table>
 
     <a id='downloadhref' hidden download="map.AnRSave.htm"></a>
 </body>
@@ -635,6 +646,14 @@
 
     for(let i of Array.from(document.querySelectorAll('.cell>tbody>tr>td'))) {
       i.onclick = onCellClick
+    }
+
+    for (const i in EBuildings.list) {
+      buildings_test.innerHTML += `<td class='${i}'>`
+    }
+
+    for (const i in EUnits.list) {
+      units_test.innerHTML += `<td class='${i}'>`
     }
 
     // placeObject("Земля", 0,1,1,"летучий")
