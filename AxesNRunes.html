@@ -114,41 +114,41 @@
     .ладья            { background-image: url(images/units/ладья.png); }
     .летучий_корабль  { background-image: url(images/units/летучий_корабль.png); }
     /* Divine */
-    /* Fire */
+    /* Nature */
     /* Ice */
     /* Necromancy */
     .Скелет_мечник    { background-image: url(images/units/Скелет_мечник.png); }
     .Баржа_мертвых    { background-image: url(images/units/Баржа_мертвых.png); }
 
     .building         { background-image: url(images/buildings/building.png); }
-    .Артефакт         { background-image: url(images/buildings/Артефакт.png); }
+    .Руины            { background-image: url(images/buildings/Руины.png); }
     .Столица          { background-image: url(images/buildings/Столица.png); }
     .Ферма            { background-image: url(images/buildings/Ферма.png); }
     .Шахта            { background-image: url(images/buildings/Шахта.png); }
     /* Divine */
     .Храм             { background-image: url(images/buildings/Храм.png); }
-    /* Fire */
-    .Алтарь_пламени   { background-image: url(images/buildings/Алтарь_пламени.png); }
+    /* Nature */
+    .Круг_друидов   { background-image: url(images/buildings/Круг_друидов.png); }
     /* Ice */
     .Алтарь_льда      { background-image: url(images/buildings/Алтарь_льда.png); }
     /* Necromancy */
     .Зиккурат         { background-image: url(images/buildings/Зиккурат.png); }
     
     /* биомы */
+    .поле         { background-color: #ffff99aa; }
     .лес          { background-color: #808000aa; }
-    .пустыня      { background-color: #ffcc00aa; }
     .льды         { background-color: #99ccffaa; }
     .пустошь      { background-color: #c0c0c0aa; }
 
-    .Асгард       { background-color: #00f000aa; }
-    .Муспелльхейм { background-color: #ff6600aa; }
+    .Асгард       { background-color: #ff6600aa; }
+    .Ванахейм     { background-color: #00dd00aa; }
     .Нифльхейм    { background-color: #00ffffaa; }
     .Хельхейм     { background-color: #808080aa; }
 
     .небо         { background:white;           }
 
-    .цвет-боги    { background:lightyellow;     }
-    .цвет-огонь   { background:lightcoral;      color: white;}
+    .цвет-боги    { background:lightcoral;      color: white;}
+    .цвет-природа { background:lightgreen;      }
     .цвет-лёд     { background:lightblue;       }
     .цвет-смерть  { background:grey;            color: white;}
 
@@ -259,7 +259,7 @@
                 <option value="льды">Льды</option>
                 <option value="пустошь">Пустошь</option>
                 <!-- <option value="Асгард">Асгард</option>
-                <option value="Муспелльхейм">Муспелльхейм</option>
+                <option value="Ванахейм">Ванахейм</option>
                 <option value="Нифльхейм">Нифльхейм</option>
                 <option value="Хельхейм">Хельхейм</option> -->
               </select>
@@ -288,7 +288,7 @@
 </body>
 
 <script>
-  //Divine, Fire, Ice, Necro
+  //Divine, Nature, Ice, Necro
 
   const ROWS_COUNT = 6
   const COLS_COUNT = 12
@@ -311,7 +311,7 @@
     pantheon : 'pantheon',
   }
 
-  const EBiomeSpecials = {
+  const EBiomeExtras = {
     isSky: "небо",
     //advanced biome
     isAdv: "улучш.",
@@ -323,47 +323,48 @@
   }
   const BASE_FOOD   = 2
   const BASE_METAL  = 2
-  //food modifier, gold?/metal modifier, affinity string, special
+  //food modifier, gold?/metal modifier, affinity string, extra
   const EBiomes = {
     list: {
-      'лес':          [2, 0, 'D'    , []  ],
-      'пустыня':      [1, 0, 'F'    , []  ],
-      'льды':         [1, 0, 'I'    , []  ],
-      'пустошь':      [0, 1, 'N'    , []  ],
+      'поле':         [1, 1, 'A'    , []  ],
+      'лес':          [1, 0, 'NN'   , []  ],
+      'льды':         [0, 1, 'I'    , []  ],
+      'пустошь':      [0, 1, 'DD'   , []  ],
 
-      'Асгард':       [2, 0, 'DD'   , []  ],
-      'Муспелльхейм': [1, 1, 'FFFF' , []  ],
+      'Асгард':       [2, 0, 'AAAA' , []  ],
+      'Ванахейм':     [1, 1, 'NNN'  , []  ],
       'Нифльхейм':    [1, 1, 'IIII' , []  ],
-      'Хельхейм':     [0, 3, 'NNN'  , []  ],
+      'Хельхейм':     [0, 3, 'DDD'  , []  ],
 
       'небо'        : [0, 0, ''     , ['небо']  ],
-      'цвет-боги'   : [0, 0, ''     , ['небо']  ],
-      'цвет-огонь'  : [0, 0, ''     , ['небо']  ],
-      'цвет-лёд'    : [0, 0, ''     , ['небо']  ],
-      'цвет-смерть' : [0, 0, ''     , ['небо']  ],
+      'цвет-боги'   : [0, 0, 'A'    , ['небо']  ],
+      'цвет-природа': [0, 0, 'N'    , ['небо']  ],
+      'цвет-лёд'    : [0, 0, 'I'    , ['небо']  ],
+      'цвет-смерть' : [0, 0, 'D'    , ['небо']  ],
     },
     base: [
+      'поле',
       'лес',    
-      'пустыня',
       'льды'  ,
       'пустошь',
     ],
     relations: {
-      'лес':          [1, 0],
-      'Асгард':       [2, 0],
-      'цвет-боги'   : [1, 0],
-
-      'пустыня':      [0, 1],
-      'Муспелльхейм': [0, 2],
-      'цвет-огонь'  : [0, 1],
-
-      'льды':         [0, -1],
-      'Нифльхейм':    [0, -2],
-      'цвет-лёд'    : [0, -1],
       
-      'пустошь':      [-1, 0],
-      'Хельхейм':     [-2, 0],
-      'цвет-смерть' : [-1, 0],
+      'поле':         [0, 1],
+      'Асгард':       [0, 2],
+      'цвет-боги':    [0, 1],
+
+      'лес':          [1, 0],
+      'Ванахейм':     [2, 0],
+      'цвет-природа': [1, 0],
+
+      'льды':         [-1, 0],
+      'Нифльхейм':    [-2, 0],
+      'цвет-лёд'    : [-1, 0],
+      
+      'пустошь':      [0, -1],
+      'Хельхейм':     [0, -2],
+      'цвет-смерть' : [0, -1],
 
       'небо'        : [0, 0],
     }
@@ -376,7 +377,7 @@
       "ладья"   : [],
       "летучий_корабль" : [],
       // Divine
-      // Fire
+      // Nature
       // Ice
       // Necromancy
       "Скелет_мечник" : [],
@@ -389,28 +390,28 @@
   const EBuildings = {
     list: {
       //pregen
-      "Артефакт"      : ["", "", [], []],
+      "Руины"      : ["", "", [], []],
 
       "Столица"       : ["", "", [], []],
       "Ферма"         : ["", "", [], []],
       "Шахта"         : ["", "", [], []],
       // Divine
       "Храм"          : ["", "", [], []],
-      // Fire
-      "Алтарь_пламени"          : ["", "", [], []],
+      // Nature
+      "Круг_друидов"  : ["", "", [], []],
       // Ice
-      "Алтарь_льда"          : ["", "", [], []],
+      "Алтарь_льда"   : ["", "", [], []],
       // Necromancy
-      "Зиккурат"          : ["", "", [], []],
+      "Зиккурат"      : ["", "", [], []],
     }
   }
 
   const EAffinities = {
     dict: {
-      'D': 0,
-      'F': 1,
+      'A': 0,
+      'N': 1,
       'I': 2,
-      'N': 3,
+      'D': 3,
     }
   }
 
@@ -452,8 +453,8 @@
 
         cell = planet.rows[i].cells[j]
         setBiome(cell, biome)
-        if (biome == 'льды' || biome == 'пустыня') {
-          setBuilding(cell.children[0].children[0].rows[0].cells[0], 'артефакт')
+        if (biome == 'льды') {
+          setBuilding(cell.children[0].children[0].rows[0].cells[0], 'руины')
         }
       }
 
@@ -614,7 +615,7 @@
         affinityStr = EBiomes.list[objName][2]
         resourceStr = EBiomes.list[objName].slice(0,2)
         //FIXME move this to initialization
-        if(!EBiomes.list[objName][3].includes(EBiomeSpecials.isSky)) {
+        if(!EBiomes.list[objName][3].includes(EBiomeExtras.isSky)) {
           resourceStr[0] += BASE_FOOD
           resourceStr[1] += BASE_METAL 
         }
