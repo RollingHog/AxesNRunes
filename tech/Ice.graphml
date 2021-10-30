@@ -40,7 +40,7 @@
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="62.8046875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="157.908203125" x="50.9208984375" y="1.677656250000041">Летучий корабль
 Цена: еда 1, руда 1
 Эффект: Атака 1, Защита 1
-, полет(1), транспорт (1)<y:LabelModel>
+, полёт(1), транспорт (1)<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -75,9 +75,9 @@
           <y:Geometry height="66.16000000000008" width="259.75" x="240.8527208085775" y="18.898568847028855"/>
           <y:Fill color="#0000FF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="157.908203125" x="50.9208984375" y="9.028242187500041">Мечник
-Цена: еда 1, руда 1
-Эффект: Атака 1, Защита 2<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="157.908203125" x="50.9208984375" y="9.028242187500041">Йотун
+Цена: еда 2, руда 1
+Эффект: Атака 3, Защита 2<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -128,33 +128,27 @@
     <node id="n6">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="66.16000000000008" width="259.75" x="1399.8527208085775" y="207.92674096460087"/>
+          <y:Geometry height="66.16000000000008" width="259.75" x="530.6027208085775" y="211.21856884702902"/>
           <y:Fill color="#0000FF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="62.8046875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="161.2421875" x="49.25390625" y="1.677656250000041">Ледяной червь
-Цена: еда 2, треб. Лед 3
-Эффект: Атака 2, Защита 2,
-Руда +1 каждый ход<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="38.681640625" x="110.5341796875" y="23.72941406250004">Война<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
               <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
             </y:ModelParameter>
           </y:NodeLabel>
-          <y:Shape type="trapezoid"/>
+          <y:Shape type="rectangle"/>
         </y:ShapeNode>
       </data>
     </node>
     <node id="n7">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="66.16000000000008" width="259.75" x="530.6027208085775" y="211.21856884702902"/>
+          <y:Geometry height="66.16000000000008" width="259.75" x="-48.89727919142251" y="211.21856884702902"/>
           <y:Fill color="#0000FF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="62.8046875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="166.94921875" x="46.400390625" y="1.677656250000041">Зиккурат
-Цена: руда 2, треб. Смерть 1
-Эффект: Смерть +2, 
-Души +1 каждый ход<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="33.255859375" x="113.2470703125" y="23.72941406250004">Руны<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -168,12 +162,10 @@
     <node id="n8">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="66.16000000000008" width="259.75" x="-48.89727919142251" y="211.21856884702902"/>
+          <y:Geometry height="66.16000000000008" width="259.75" x="1110.1027208085775" y="207.92674096460087"/>
           <y:Fill color="#0000FF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="127.2578125" x="66.24609375" y="9.028242187500041">Военная некромантия
-Цена: 
-Эффект: <y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="25.55078125" x="117.099609375" y="23.72941406250004">Лёд<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -187,25 +179,24 @@
     <node id="n9">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="66.16000000000008" width="259.75" x="1110.1027208085775" y="207.92674096460087"/>
+          <y:Geometry height="66.16000000000008" width="259.75" x="-338.6472791914225" y="211.21856884702902"/>
           <y:Fill color="#0000FF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="62.8046875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="166.94921875" x="46.400390625" y="1.677656250000041">Зиккурат
-Цена: руда 2, треб. Смерть 1
-Эффект: Смерть +2, 
-Души +1 каждый ход<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="62.8046875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="161.2421875" x="49.25390625" y="1.677656250000041">Рунный червь
+Цена: еда 2, треб. Лед 3
+Эффект: Атака 2, Защита 2,
+Руда +1 каждый ход<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
               <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
             </y:ModelParameter>
           </y:NodeLabel>
-          <y:Shape type="rectangle"/>
+          <y:Shape type="trapezoid"/>
         </y:ShapeNode>
       </data>
     </node>
     <edge id="e0" source="n2" target="n3">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -216,7 +207,6 @@
       </data>
     </edge>
     <edge id="e1" source="n2" target="n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -227,7 +217,6 @@
       </data>
     </edge>
     <edge id="e2" source="n0" target="n4">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -238,7 +227,6 @@
       </data>
     </edge>
     <edge id="e3" source="n4" target="n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -249,7 +237,6 @@
       </data>
     </edge>
     <edge id="e4" source="n4" target="n5">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -259,8 +246,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e5" source="n2" target="n8">
-      <data key="d9"/>
+    <edge id="e5" source="n2" target="n7">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -270,8 +256,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e6" source="n2" target="n7">
-      <data key="d9"/>
+    <edge id="e6" source="n2" target="n6">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -281,8 +266,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e7" source="n2" target="n9">
-      <data key="d9"/>
+    <edge id="e7" source="n2" target="n8">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -292,8 +276,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e8" source="n5" target="n9">
-      <data key="d9"/>
+    <edge id="e8" source="n5" target="n8">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
