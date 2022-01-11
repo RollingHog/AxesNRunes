@@ -163,6 +163,12 @@
       background-color: white;
     }
     
+    .readonly {
+      -webkit-user-modify:  read-only;
+      -moz-user-modify:     read-only;
+      user-modify:          read-only;
+    }
+    
   </style>
 
 </head>
@@ -183,6 +189,7 @@
     <div id="main-menu-" hidden2>
       <button onclick="savePage()">Save</button>
       <button onclick="loadPage()">Load</button>
+      <button onclick="doTurn()">Turn</button>
     </div>
     <br>
   
@@ -194,7 +201,7 @@
           <td class="цвет-лёд     "></td>
           <td class="цвет-смерть  "></td>
         </tr>
-        <tr>
+        <tr class=readonly>
           <td colspan=2>
             <table class="cell">
               <td>&nbsp;</td>
@@ -208,7 +215,7 @@
             </table>
           </td>
         </tr>
-        <tr>
+        <tr class=readonly>
           <td colspan=2>
             <table class="cell">
               <td>&nbsp;</td>
@@ -235,7 +242,7 @@
     <div id="empire-template" hidden2 contenteditable="true">
       <table id="Империянейм" class="empire">
         <tbody>
-          <tr><th class="empire-name" colspan=4>Империянейм</th></tr>
+          <tr><th colspan=4><span class="empire-name">Империянейм</span></th></tr>
           <tr>
             <td>Цвет</td>
             <td>Родной мир</td>
