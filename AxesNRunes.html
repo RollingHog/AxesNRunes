@@ -779,7 +779,7 @@
     
     empires.forEach( el => {
       const tColor = el.querySelector('.empire-color').innerText.trim()
-      el.querySelector('.empire-name').style.backgroundColor = tColor
+      el.querySelector('.empire-color').style.backgroundColor = tColor
       res.colors[ el.querySelector('.empire-name').innerHTML ] 
         = tColor
     })
