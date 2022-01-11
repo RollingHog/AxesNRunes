@@ -172,7 +172,7 @@
 
 <body class="w3-theme-l2 w3-padding" style="overflow:auto">
 
-  <div id="allPage">
+  <div id="allPage" class="SAVE_ME">
     <style id="empires-stylesheet"></style>
     <table id="map" contenteditable="true"></table>
     <br><br><br>
@@ -721,9 +721,12 @@
     let res = {
       colors: {}
     }
+    
     empires.forEach( el => {
+      const tColor = el.querySelector('.empire-color').innerText.trim()
+      el.querySelector('.empire-name').style.backgroundColor = tColor
       res.colors[ el.querySelector('.empire-name').innerHTML ] 
-        = el.querySelector('.empire-color').innerText.trim()     
+        = tColor
     })
     return res
   }
