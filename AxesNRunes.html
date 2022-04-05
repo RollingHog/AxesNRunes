@@ -880,8 +880,7 @@
     allPage.innerHTML=prompt('Весь текст из файла сюда');
   }
 
-  function init() {
-
+  function generateMap() {
     map.createTHead()
     map.createTBody()
 
@@ -911,6 +910,11 @@
       map.tBodies[0].rows[0].cells[0].classList= 'shakal map-border'
       map.tBodies[0].rows[0].cells[0].innerHTML = y;
     }
+  }
+
+  function init() {
+
+    generateMap()
 
     for(let i of Array.from(document.querySelectorAll('.cell>tbody>tr>td'))) {
       i.onclick = onCellClick
