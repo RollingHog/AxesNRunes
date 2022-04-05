@@ -114,31 +114,6 @@
     .empire .header {
       background: gainsboro;
     }
-
-    .мечник           { background-image: url(images/units/мечник.png); }
-    .ладья            { background-image: url(images/units/ладья.png); }
-    .летучий_корабль  { background-image: url(images/units/летучий_корабль.png); }
-    /* Divine */
-    /* Nature */
-    /* Ice */
-    .Йотун            { background-image: url(images/units/Йотун.png); }
-    /* Necromancy */
-    .Скелет_мечник    { background-image: url(images/units/Скелет_мечник.png); }
-    .Баржа_мертвых    { background-image: url(images/units/Баржа_мертвых.png); }
-
-    .building         { background-image: url(images/buildings/building.png); }
-    .Руины            { background-image: url(images/buildings/Руины.png); }
-    .Столица          { background-image: url(images/buildings/Столица.png); }
-    .Ферма            { background-image: url(images/buildings/Ферма.png); }
-    .Шахта            { background-image: url(images/buildings/Шахта.png); }
-    /* Divine */
-    .Храм             { background-image: url(images/buildings/Храм.png); }
-    /* Nature */
-    .Круг_друидов   { background-image: url(images/buildings/Круг_друидов.png); }
-    /* Ice */
-    .Алтарь_льда      { background-image: url(images/buildings/Алтарь_льда.png); }
-    /* Necromancy */
-    .Зиккурат         { background-image: url(images/buildings/Зиккурат.png); }
     
     /* биомы */
     .поле         { background-color: #ffff99aa; }
@@ -620,6 +595,13 @@
     return document.getElementById(name)
   }
 
+  function addStyle(elID, styleStr) {
+    var s = document.createElement('style')
+    s.id = elID
+    s.innerHTML = styleStr
+    document.head.appendChild(s)
+  }
+
   function getRandomInt(min, maxInclusive) {
     min = Math.ceil(min);
     maxInclusive = Math.floor(maxInclusive);
@@ -881,6 +863,8 @@
   }
 
   function generateMap() {
+    console.time('map generation')
+
     map.createTHead()
     map.createTBody()
 
@@ -910,9 +894,11 @@
       map.tBodies[0].rows[0].cells[0].classList= 'shakal map-border'
       map.tBodies[0].rows[0].cells[0].innerHTML = y;
     }
+    console.timeEnd('map generation')
   }
 
   function init() {
+    console.time('init')
 
     generateMap()
 
@@ -928,18 +914,26 @@
       i.onclick = editEmpireName
     }
 
+    let t = ''
+
     for (const i in EBuildings.list) {
       buildings_test.innerHTML += `<td class='${i}' title='${i}'>`
+        t += `.${i} { background-image: url(images/buildings/${i}.png); }\n`
     }
+    addStyle('style__building_images', t)
 
     for (const i in EUnits.list) {
       units_test.innerHTML += `<td class='${i}'  title='${i}'>`
+      t += `.${i} { background-image: url(images/units/${i}.png); }\n`
     }
+    addStyle('style__unit_images', t)
 
     // placeObject("Земля", 0,1,1,"летучий")
     // placeObject("Земля", 1,1,0,"building")
     // placeObject("Земля", 1,1,1,"мечник")
     // setBiome("Земля", 1,1,"льды")
+
+    console.timeEnd('init')
   }
   document.body.onload = init
 
