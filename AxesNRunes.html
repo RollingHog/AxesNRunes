@@ -1,6 +1,7 @@
 <html>
   <head>
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8" />
+  <meta http-equiv="content-language" content="ru">
   <link href="misc/w3.css" type="text/css" rel="stylesheet" />
   <link href="misc/w3-theme-amber.css" type="text/css" rel="stylesheet" />
   <!-- TODO use parser from StarDust to autoparse yEd graphs? -->
@@ -865,6 +866,9 @@
   function generateMap() {
     console.time('map generation')
 
+    let map = document.createElement('table')
+    map.id = 'map'
+
     map.createTHead()
     map.createTBody()
 
@@ -894,6 +898,10 @@
       map.tBodies[0].rows[0].cells[0].classList= 'shakal map-border'
       map.tBodies[0].rows[0].cells[0].innerHTML = y;
     }
+
+    getEl('map').remove()
+    getEl('allPage').insertBefore(map, getEl('allPage').firstChild)
+
     console.timeEnd('map generation')
   }
 
