@@ -1,5 +1,4 @@
 руны/**
-*.url
 misc/w3.js
 images/orig/**
 images/biomes/копии/**
@@ -8,3 +7,4 @@ images/biomes/копии/**
 images/units/unused/**
 images/buildings/unused/**
 images/res/**
+references/руны/**
