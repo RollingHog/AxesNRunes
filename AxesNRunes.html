@@ -504,6 +504,10 @@
   HTMLElement.prototype.qs = HTMLElement.prototype.querySelector
   HTMLElement.prototype.qsa = HTMLElement.prototype.querySelectorAll
 
+  function qsa(selector) {
+    return document.querySelectorAll(selector)
+  }
+
   const TPlanet = {
     populate: function(planet, x, y) {
       let i
@@ -522,12 +526,15 @@
       let biome = null
         , cell = null
         // , prev_biome = null
+
+      if(!SPICY_BIOME_GENERATION)
+        biome = EBiomes.base[getRandomInt(0,3)]
+      else
+        biome = Object.keys(EBiomes.list)[getRandomInt(0,7-getRandomInt(0,1)*4)]
+
       for(let j=0; j<CELLS_COUNT; j++)  {
         // do {
-          if(!SPICY_BIOME_GENERATION)
-            biome = EBiomes.base[getRandomInt(0,3)]
-          else
-            biome = Object.keys(EBiomes.list)[getRandomInt(0,7-getRandomInt(0,1)*4)]
+
         // } while(prev_biome && calculateBiomeRelations(prev_biome, biome)<2)
         // prev_biome = biome
 
@@ -747,7 +754,7 @@
     if(el instanceof Event) el = el.target
     const res = prompt("", el.innerHTML)
     if(!res) return
-    if(getEl(res) && res != el.innerHTML) {
+    if(qsa('#'+res).length > 1) {
       alert('Нельзя, имя неуникально: '+res)
       return
     }
@@ -940,6 +947,11 @@
     // placeObject("Земля", 1,1,0,"building")
     // placeObject("Земля", 1,1,1,"мечник")
     // setBiome("Земля", 1,1,"льды")
+
+    // TODO
+    // tr.affinities, .belongs, .resources {
+    //   display: none;
+    // }
 
     console.timeEnd('init')
   }
