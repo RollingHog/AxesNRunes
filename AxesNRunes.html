@@ -257,52 +257,9 @@
       </table>
     </div>
     <br>
-  
-    <div id="planet-template" hidden>
-      <table class="planet" id="Земля">
-        <tr class="affinities">
-          <td class="цвет-боги    "></td>
-          <td class="цвет-природа "></td>
-          <td class="цвет-лёд     "></td>
-          <td class="цвет-смерть  "></td>
-        </tr>
-        <tr class=readonly>
-          <td colspan=2>
-            <table class="cell">
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </table>
-          </td>
-          <td colspan=2>
-            <table class="cell">
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </table>
-          </td>
-        </tr>
-        <tr class=readonly>
-          <td colspan=2>
-            <table class="cell">
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </table>
-          </td>
-          <td colspan=2>
-            <table class="cell">
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </table>
-          </td>
-        </tr>
-        <tr class="belongs"><td class="name" colspan=4></td></tr>
-        <tr class="resources">
-          <td class="цвет-еда"  ></td>
-          <td class="цвет-руда" ></td>
-          <td class="цвет-души" ></td>
-          <td class="цвет-боги" ></td>
-        </tr>
-      </table>
-    </div>
+
+    <iframe id="i-planet-template" src="htm/planet.t.htm" hidden></iframe>
+    <div id="planet-template" hidden></div>
 
     <div id="empire-template" hidden2 contenteditable="true">
       <table id="Империянейм" class="empire">
@@ -914,6 +871,9 @@
 
   function init() {
     console.time('init')
+
+    getEl('planet-template').innerHTML = 
+      getEl('i-planet-template').contentWindow.document.body.innerHTML
 
     generateMap()
 
