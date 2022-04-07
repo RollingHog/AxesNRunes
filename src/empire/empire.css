@@ -1,0 +1,25 @@
+table.empire {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 33%;
+  text-align: center;
+  background-color: white;
+}
+
+table.empire>tbody>tr>th,
+table.empire>tbody>tr>td {
+  border: 1px solid black;
+  width: 25%;
+}
+
+.empire select {
+  background-color: transparent;
+  border: 0;
+  appearance: none;
+  text-align: center;
+  width: 100%;
+}
+
+.empire .header {
+  background: gainsboro;
+}

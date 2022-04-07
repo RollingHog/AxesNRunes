@@ -50,32 +50,6 @@
       background-color: lightgrey;
       border: 1px solid black;
     }
-
-    table.empire {
-      border: 1px solid black;
-      border-collapse: collapse;
-      width: 33%;
-      text-align: center;
-      background-color: white;
-    }
-
-    table.empire>tbody>tr>th,
-    table.empire>tbody>tr>td {
-      border: 1px solid black;
-      width: 25%;
-    }
-
-    .empire select {
-      background-color: transparent;
-      border: 0;
-      appearance: none;
-      text-align: center;
-      width: 100%;
-    }
-    
-    .empire .header {
-      background: gainsboro;
-    }
     
     /* биомы */
     .поле         { background-color: #ffff99aa; }
@@ -142,57 +116,10 @@
     <link rel="stylesheet" href="src/planet/planet.css">
     <iframe id="i-planet-template" src="src/planet/planet.t.htm" hidden></iframe>
     <div id="planet-template" hidden></div>
-
-    <div id="empire-template" hidden2 contenteditable="true">
-      <table id="Империянейм" class="empire">
-        <tbody>
-          <tr>
-            <th colspan=3>
-              <span class="empire-name">Империянейм</span>
-            </th>
-            <td class="empire-id"></td>
-          </tr>
-          <tr style="height: 9px;"><td colspan="4"></td></tr>
-          <tr class=header>
-            <td>Цвет</td>
-            <td>Родной биом</td>
-            <td>Тип магии</td>
-            <td>Биом</td>
-          </tr>
-          <tr>
-            <td class="empire-color">red</td>
-            <td onclick="choosingHomeworld.start(this)">&nbsp;</td>
-            <td>
-              <select name="">
-                <option value="Боги">Боги</option>
-                <option value="Огонь">Огонь</option>
-                <option value="Лед">Лед</option>
-                <option value="Смерть">Смерть</option>
-              </select>
-            </td>
-            <td>
-              <select name="">
-                <option value="лес">Лес</option>
-                <option value="пустыня">Пустыня</option>
-                <option value="льды">Льды</option>
-                <option value="пустошь">Пустошь</option>
-                <!-- <option value="Асгард">Асгард</option>
-                <option value="Ванахейм">Ванахейм</option>
-                <option value="Нифльхейм">Нифльхейм</option>
-                <option value="Хельхейм">Хельхейм</option> -->
-              </select>
-            </td>
-          </tr>
-          <tr style="height: 9px;"><td colspan="4"></td></tr>
-          <tr>
-            <td class=header>Еда</td>
-            <td class="food-income">0</td>
-            <td class=header>Руда</td>
-            <td class="ore-income" >0</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    
+    <link rel="stylesheet" href="src/empire/empire.css">
+    <iframe id="i-empire-template" src="src/empire/empire.t.htm" hidden></iframe>
+    <div id="empire-template" hidden2 contenteditable="true"></div>
 
     <div id="unit-template" hidden></div>
     <div id="building-template" hidden></div>
@@ -754,8 +681,10 @@
   function init() {
     console.time('init')
 
-    getEl('planet-template').innerHTML = getEl('i-planet-template').contentWindow.document.body.innerHTML
-    getEl('examples').innerHTML = getEl('i-examples').contentWindow.document.body.innerHTML
+    for(let i of ['planet-template', 'empire-template', 'examples']) {
+      getEl(i).innerHTML = getEl('i-'+i).contentWindow.document.body.innerHTML
+
+    }
 
     generateMap()
 
