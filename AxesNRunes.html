@@ -217,6 +217,8 @@
       else
         biome = Object.keys(EBiomes.list)[getRandomInt(0,7-getRandomInt(0,1)*4)]
 
+      let addRuins = biome == 'льды' ? getRandomInt(1,10)%2 : false
+
       for(let j=0; j<CELLS_COUNT; j++)  {
         // do {
 
@@ -225,7 +227,7 @@
 
         cell = planet.rows[i].cells[j]
         setBiome(cell, biome)
-        if (biome == 'льды') {
+        if (addRuins) {
           setBuilding(cell.children[0].children[0].rows[0].cells[0], 'руины')
         }
       }
