@@ -1,0 +1,76 @@
+body {
+  padding: 0;
+}
+
+table {
+  text-align: center;
+}
+
+#main-menu {
+  position: fixed;
+  left: 4px;
+  top: 4px;
+  width: 5px;
+  height: 5px;
+  border: 1px solid black;
+}
+
+#main-menu:hover {
+  width: auto;
+  height: auto;
+}
+
+#map {
+  border-collapse: collapse;
+  max-height: 100vh;
+  overflow: hidden;
+  background-color: darkslateblue;
+}
+
+#map>tbody>tr>td {
+  padding: 8px;
+}
+
+.shakal {
+  width:auto !important;
+  min-width:5px !important;
+}
+
+.map-border {
+  background-color: lightgrey;
+  border: 1px solid black;
+}
+
+/* биомы */
+.поле         { background-color: #ffff99aa; }
+.лес          { background-color: #808000aa; }
+.льды         { background-color: #99ccffaa; }
+.пустошь      { background-color: #c0c0c0aa; }
+
+.Асгард       { background-color: #ff6600aa; }
+.Ванахейм     { background-color: #00dd00aa; }
+.Нифльхейм    { background-color: #00ffffaa; }
+.Хельхейм     { background-color: grey; }
+
+.небо         { background:white;           }
+
+.цвет-боги    { background:sandybrown;      color: white;}
+.цвет-природа { background:lightgreen;      }
+.цвет-лёд     { background:lightblue;       }
+.цвет-смерть  { background:grey;            color: white;}
+
+.цвет-еда     { background:green;           color: white;}
+.цвет-руда    { background:gold;  }
+.цвет-души    { background:lightgrey;       }
+
+#image_tests td {
+  height: 26px;
+  width: 28px;
+  background-color: white;
+}
+
+.readonly {
+  -webkit-user-modify:  read-only;
+  -moz-user-modify:     read-only;
+  user-modify:          read-only;
+}
