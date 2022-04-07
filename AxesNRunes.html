@@ -135,88 +135,8 @@
     </div>
     <br>
     
-    <style>
-      table#affinities-info tr td {
-        /* height: 10px; */
-        padding: 6px;
-      }
-    </style>
-    <table id="affinities-info">
-      <tr>
-        <td class="Асгард">Асгард</td>
-        <td colspan="2"></td>
-        <td class="Ванахейм">Ванахейм</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="поле">поле</td>
-        <td class="лес">лес</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="льды">льды</td>
-        <td class="пустошь">пустошь</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="Нифльхейм">Нифльхейм</td>
-        <td colspan="2"></td>
-        <td class="Хельхейм">Хельхейм</td>
-      </tr>
-    </table>
-    <br>
-
-    <h5>ПЛАНЕТА-ПРИМЕР</h5>
-    <div id="planet-info">
-      <table class="planet">
-        <tr class="affinities" colspan=4>
-          <td class="цвет-боги    ">Кол-во аспекта асов</td>
-          <td class="цвет-природа ">-//- природы</td>
-          <td class="цвет-лёд     ">-//- льда</td>
-          <td class="цвет-смерть  ">-//- смерти</td>
-        </tr>
-        <tr class=readonly>
-          <td colspan=2>
-            <table class="cell">
-              (тайл воздуха)
-              <td>возд. здание</td>
-              <td>возд. юнит</td>
-            </table>
-          </td>
-          <td colspan=2>
-            <table class="cell">
-              (тайл воздуха)
-              <td>возд. здание</td>
-              <td>возд. юнит</td>
-            </table>
-          </td>
-        </tr>
-        <tr class=readonly>
-          <td colspan=2>
-            <table class="cell">
-              (тайл земли)
-              <td>наз. здание</td>
-              <td>наз. юнит</td>
-            </table>
-          </td>
-          <td colspan=2>
-            <table class="cell">
-              (тайл земли)
-              <td>наз. здание</td>
-              <td>наз. юнит</td>
-            </table>
-          </td>
-        </tr>
-        <tr class="belongs"><td class="name" colspan=4></td></tr>
-        <tr class="resources" colspan=4>
-          <td class="цвет-еда"  >Произв. еды</td>
-          <td class="цвет-руда" >Произв. руды</td>
-          <td class="цвет-души" >Кол-во душ</td>
-          <td class="цвет-боги" >Сила пантеона</td>
-        </tr>
-      </table>
-    </div>
+    <iframe id="i-examples" src="src/examples/examples.t.htm" hidden></iframe>
+    <div id="examples"></div>
     <br>
 
     <link rel="stylesheet" href="src/planet/planet.css">
@@ -834,8 +754,8 @@
   function init() {
     console.time('init')
 
-    getEl('planet-template').innerHTML = 
-      getEl('i-planet-template').contentWindow.document.body.innerHTML
+    getEl('planet-template').innerHTML = getEl('i-planet-template').contentWindow.document.body.innerHTML
+    getEl('examples').innerHTML = getEl('i-examples').contentWindow.document.body.innerHTML
 
     generateMap()
 
