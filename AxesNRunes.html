@@ -51,45 +51,6 @@
       border: 1px solid black;
     }
 
-    .planet {
-      border-collapse: collapse;
-      background-color: white;
-      border: 1px solid black;
-    }
-
-    .planet>tbody>tr {
-      height: 32px;
-    }
-
-    .planet tr td {
-      border: 1px solid black;
-      width: 64px;
-      max-width: 64px;
-    }
-    
-    .cell td {
-      width: 49%;
-      height: 26px;
-      border: 0 !important;
-      background-size:cover;
-    }
-
-    .planet .belongs {
-      height: 19px;
-    }
-
-    .planet .name {
-      overflow: hidden;
-    }
-
-    .planet .affinities, .planet .resources {
-      height: 22px;
-    }
-
-    .affinities>td, .resources>td {
-      width: 25% !important;
-    }
-
     table.empire {
       border: 1px solid black;
       border-collapse: collapse;
@@ -258,7 +219,8 @@
     </div>
     <br>
 
-    <iframe id="i-planet-template" src="htm/planet.t.htm" hidden></iframe>
+    <link rel="stylesheet" href="src/planet/planet.css">
+    <iframe id="i-planet-template" src="src/planet/planet.t.htm" hidden></iframe>
     <div id="planet-template" hidden></div>
 
     <div id="empire-template" hidden2 contenteditable="true">

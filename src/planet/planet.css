@@ -1,0 +1,38 @@
+.planet {
+  border-collapse: collapse;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.planet>tbody>tr {
+  height: 32px;
+}
+
+.planet tr td {
+  border: 1px solid black;
+  width: 64px;
+  max-width: 64px;
+}
+
+.cell td {
+  width: 49%;
+  height: 26px;
+  border: 0 !important;
+  background-size:cover;
+}
+
+.planet .belongs {
+  height: 19px;
+}
+
+.planet .name {
+  overflow: hidden;
+}
+
+.planet .affinities, .planet .resources {
+  height: 22px;
+}
+
+.affinities>td, .resources>td {
+  width: 25% !important;
+}
