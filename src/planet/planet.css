@@ -8,17 +8,21 @@
   height: 32px;
 }
 
-.planet tr td {
+.planet>tbody>tr>td {
   border: 1px solid black;
   width: 64px;
   max-width: 64px;
 }
 
-.cell td {
+.cell {
+  width: 100%;
+}
+
+.cell>tbody>tr>td {
   width: 49%;
   height: 26px;
   border: 0 !important;
-  background-size:cover;
+  background-size: cover;
 }
 
 .planet .belongs {
