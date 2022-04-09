@@ -5,7 +5,7 @@
   <link href="misc/w3.css" type="text/css" rel="stylesheet" />
   <link href="misc/w3-theme-amber.css" type="text/css" rel="stylesheet" />
   <!-- TODO use parser from StarDust to autoparse yEd graphs? -->
-  <script src="tech/ETechTree.data.js"></script>
+  <!-- <script src="tech/ETechTree.data.js"></script> -->
   <TITLE></TITLE>
   <link href="src/main.css" type="text/css" rel="stylesheet" />
 </head>
@@ -88,24 +88,24 @@
   }
   const BASE_FOOD   = 2
   const BASE_METAL  = 2
-  //food modifier, gold/metal modifier, affinity string, extra
+  //food modifier, ore modifier, affinity string, extra
   const EBiomes = {
     list: {
-      'поле':         [1, 1, 'A'    , []  ],
-      'лес':          [1, 0, 'NN'   , []  ],
-      'льды':         [0, 1, 'I'    , []  ],
-      'пустошь':      [0, 1, 'DD'   , []  ],
+      'поле':         [1, 1, 'A' , []  ],
+      'лес':          [1, 0, 'N2', []  ],
+      'льды':         [0, 1, 'I' , []  ],
+      'пустошь':      [0, 1, 'D2', []  ],
 
-      'Асгард':       [2, 0, 'AAAA' , []  ],
-      'Ванахейм':     [1, 1, 'NNN'  , []  ],
-      'Нифльхейм':    [1, 1, 'IIII' , []  ],
-      'Хельхейм':     [0, 3, 'DDD'  , []  ],
+      'Асгард':       [2, 0, 'A4', []  ],
+      'Ванахейм':     [1, 1, 'N3', []  ],
+      'Нифльхейм':    [1, 1, 'I4', []  ],
+      'Хельхейм':     [0, 3, 'D3', []  ],
 
-      'небо'        : [0, 0, ''     , ['небо']  ],
-      'цвет-боги'   : [0, 0, 'A'    , ['небо']  ],
-      'цвет-природа': [0, 0, 'N'    , ['небо']  ],
-      'цвет-лёд'    : [0, 0, 'I'    , ['небо']  ],
-      'цвет-смерть' : [0, 0, 'D'    , ['небо']  ],
+      'небо'        : [0, 0, ''  , ['небо']  ],
+      'цвет-боги'   : [0, 0, 'A' , ['небо']  ],
+      'цвет-природа': [0, 0, 'N' , ['небо']  ],
+      'цвет-лёд'    : [0, 0, 'I' , ['небо']  ],
+      'цвет-смерть' : [0, 0, 'D' , ['небо']  ],
     },
     base: [
       'поле',
@@ -194,6 +194,14 @@
     return document.querySelectorAll(selector)
   }
 
+  function parseAffinityStr(affinityString) {
+    affinityString = affinityString.trim()
+    return { 
+      type: affinityString.charAt(), 
+      num:  +affinityString.substring(1) || 1
+    }
+  }
+
   const TPlanet = {
     populate: function(planet, x, y) {
       let i
@@ -251,14 +259,9 @@
       }
     }, 
     updateAffinity: function  (planet, affinityString, revert = false) {
-      affinityString = affinityString.trim()
+      const affinity = parseAffinityStr(affinityString) 
       if(!affinityString) return
-      // let total = {}
-      // const d = affinityString
-      //   .toUpperCase()
-      //   .split('')
-      //   .forEach(x => total[x] ? total[x]+=1 : total[x]=1 )
-      const target = planet.querySelector('.affinities').children[EAffinities.dict[affinityString.charAt()]]
+      const target = planet.querySelector('.affinities').children[EAffinities.dict[affinity.type]]
       if(!target.innerText) target.innerText = 0
       if(!revert)
         target.innerText = +target.innerText 
