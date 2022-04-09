@@ -61,6 +61,8 @@
   const LAYERS_COUNT = 4
   const CELLS_COUNT = 4
 
+  const ONE_BIOME_PER_CELL = true
+
   const EObjTypes = {
     biome     : 'biome',
     unit      : 'unit',
@@ -259,9 +261,11 @@
       const target = planet.querySelector('.affinities').children[EAffinities.dict[affinityString.charAt()]]
       if(!target.innerText) target.innerText = 0
       if(!revert)
-        target.innerText = +target.innerText + affinityString.length
+        target.innerText = +target.innerText 
+          + affinityString.length/ONE_BIOME_PER_CELL?CELLS_COUNT:1
       else
-        target.innerText = +target.innerText - affinityString.length
+        target.innerText = +target.innerText 
+          - affinityString.length/ONE_BIOME_PER_CELL?CELLS_COUNT:1
 
       if(+target.innerText <= 0) target.innerText = ''
     }
