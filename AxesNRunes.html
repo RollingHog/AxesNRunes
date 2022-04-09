@@ -86,8 +86,12 @@
   }
   const BASE_FOOD   = 2
   const BASE_METAL  = 2
-  //food modifier, ore modifier, affinity string, extra
+  //  food, ore, affinity, flags
   const EBiomes = {
+    c: {
+      //compiled
+      list: []
+    },
     list: {
       'поле':         [1, 1, 'A' , []  ],
       'лес':          [1, 0, 'N2', []  ],
