@@ -80,6 +80,8 @@
     adv: "улучш.",
   }
 
+  var Aff = parseAffinityStr
+
   const INITIAL_RESOURCES = {
     PLANET: [0, 0, 3, 0],
     EMPIRE: [5, 5, 0, 0]
@@ -93,21 +95,21 @@
       list: []
     },
     list: {
-      'поле':         [1, 1, 'A' , []  ],
-      'лес':          [1, 0, 'N2', []  ],
-      'льды':         [0, 1, 'I' , []  ],
-      'пустошь':      [0, 1, 'D2', []  ],
+      'поле':         [1, 1, Aff('A' ), []  ],
+      'лес':          [1, 0, Aff('N2'), []  ],
+      'льды':         [0, 1, Aff('I' ), []  ],
+      'пустошь':      [0, 1, Aff('D2'), []  ],
 
-      'Асгард':       [2, 0, 'A4', []  ],
-      'Ванахейм':     [1, 1, 'N3', []  ],
-      'Нифльхейм':    [1, 1, 'I4', []  ],
-      'Хельхейм':     [0, 3, 'D3', []  ],
+      'Асгард':       [2, 0, Aff('A4'), []  ],
+      'Ванахейм':     [1, 1, Aff('N3'), []  ],
+      'Нифльхейм':    [1, 1, Aff('I4'), []  ],
+      'Хельхейм':     [0, 3, Aff('D3'), []  ],
 
-      'небо'        : [0, 0, ''  , [EBiomeFlags.sky]  ],
-      'цвет-боги'   : [0, 0, 'A' , [EBiomeFlags.sky]  ],
-      'цвет-природа': [0, 0, 'N' , [EBiomeFlags.sky]  ],
-      'цвет-лёд'    : [0, 0, 'I' , [EBiomeFlags.sky]  ],
-      'цвет-смерть' : [0, 0, 'D' , [EBiomeFlags.sky]  ],
+      'небо'        : [0, 0, Aff('' ) , [EBiomeFlags.sky]  ],
+      'цвет-боги'   : [0, 0, Aff('A') , [EBiomeFlags.sky]  ],
+      'цвет-природа': [0, 0, Aff('N') , [EBiomeFlags.sky]  ],
+      'цвет-лёд'    : [0, 0, Aff('I') , [EBiomeFlags.sky]  ],
+      'цвет-смерть' : [0, 0, Aff('D') , [EBiomeFlags.sky]  ],
     },
     base: [
       'поле',
@@ -260,9 +262,8 @@
         list[i].innerText = +list[i].innerText + resourceArray[i]
       }
     }, 
-    updateAffinity: function  (planet, affinityString, revert = false) {
-      const affinity = parseAffinityStr(affinityString) 
-      if(!affinityString) return
+    updateAffinity: function  (planet, affinity, revert = false) {
+      if(!affinity || !affinity.type) return
       const target = planet.querySelector('.affinities').children[EAffinities.dict[affinity.type]]
       if(!target.innerText) target.innerText = 0
       if(!revert)
