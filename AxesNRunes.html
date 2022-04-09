@@ -9,7 +9,6 @@
   <TITLE></TITLE>
   <link href="src/main.css" type="text/css" rel="stylesheet" />
 </head>
-<script></script>
 
 <body class="w3-theme-l2 w3-padding" style="overflow:auto">
 
@@ -28,17 +27,17 @@
     </div>
     <br>
     
-    <iframe id="i-examples" src="src/examples/examples.t.htm" hidden></iframe>
+    <script src="src/examples/examples.t.htm"></script>
     <div id="examples"></div>
     <br>
 
     <link rel="stylesheet" href="src/planet/planet.css">
-    <iframe id="i-planet-template" src="src/planet/planet.t.htm" hidden></iframe>
-    <div id="planet-template" hidden></div>
+    <script src="src/planet/planet.t.htm"></script>
+    <div id="planet_template" hidden></div>
     
     <link rel="stylesheet" href="src/empire/empire.css">
-    <iframe id="i-empire-template" src="src/empire/empire.t.htm" hidden></iframe>
-    <div id="empire-template" hidden2 contenteditable="true"></div>
+    <script src="src/empire/empire.t.htm"></script>
+    <div id="empire_template" hidden2 contenteditable="true"></div>
 
     <div id="unit-template" hidden></div>
     <div id="building-template" hidden></div>
@@ -217,6 +216,8 @@
       else
         biome = Object.keys(EBiomes.list)[getRandomInt(0,7-getRandomInt(0,1)*4)]
 
+      let addRuins = biome == 'льды' ? getRandomInt(1,10)%2 : false
+
       for(let j=0; j<CELLS_COUNT; j++)  {
         // do {
 
@@ -225,7 +226,7 @@
 
         cell = planet.rows[i].cells[j]
         setBiome(cell, biome)
-        if (biome == 'льды') {
+        if (addRuins) {
           setBuilding(cell.children[0].children[0].rows[0].cells[0], 'руины')
         }
       }
@@ -582,7 +583,7 @@
         x = COLS_COUNT-j-1
         map.tBodies[0].rows[0].insertCell(0);
         // if(i%2==1 && j%2==0 || i%2==0 && j%2==1) continue
-        map.tBodies[0].rows[0].cells[0].innerHTML = getEl('planet-template').innerHTML
+        map.tBodies[0].rows[0].cells[0].innerHTML = getEl('planet_template').innerHTML
 
         TPlanet.populate(map.tBodies[0].rows[0].cells[0].children[0], x, y)
       }
@@ -600,8 +601,8 @@
   function init() {
     console.time('init')
 
-    for(let i of ['planet-template', 'empire-template', 'examples']) {
-      getEl(i).innerHTML = getEl('i-'+i).contentWindow.document.body.innerHTML
+    for(let i of ['planet_template', 'empire_template', 'examples']) {
+      getEl(i).innerHTML = window['htmljs_'+i]
 
     }
 
