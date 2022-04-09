@@ -76,10 +76,10 @@
     pantheon : 'pantheon',
   }
 
-  const EBiomeExtras = {
-    isSky: "небо",
+  const EBiomeFlags = {
+    sky: "небо",
     //advanced biome
-    isAdv: "улучш.",
+    adv: "улучш.",
   }
 
   const INITIAL_RESOURCES = {
@@ -88,8 +88,12 @@
   }
   const BASE_FOOD   = 2
   const BASE_METAL  = 2
-  //food modifier, ore modifier, affinity string, extra
+  //  food, ore, affinity, flags
   const EBiomes = {
+    c: {
+      //compiled
+      list: []
+    },
     list: {
       'поле':         [1, 1, 'A' , []  ],
       'лес':          [1, 0, 'N2', []  ],
@@ -101,11 +105,11 @@
       'Нифльхейм':    [1, 1, 'I4', []  ],
       'Хельхейм':     [0, 3, 'D3', []  ],
 
-      'небо'        : [0, 0, ''  , ['небо']  ],
-      'цвет-боги'   : [0, 0, 'A' , ['небо']  ],
-      'цвет-природа': [0, 0, 'N' , ['небо']  ],
-      'цвет-лёд'    : [0, 0, 'I' , ['небо']  ],
-      'цвет-смерть' : [0, 0, 'D' , ['небо']  ],
+      'небо'        : [0, 0, ''  , [EBiomeFlags.sky]  ],
+      'цвет-боги'   : [0, 0, 'A' , [EBiomeFlags.sky]  ],
+      'цвет-природа': [0, 0, 'N' , [EBiomeFlags.sky]  ],
+      'цвет-лёд'    : [0, 0, 'I' , [EBiomeFlags.sky]  ],
+      'цвет-смерть' : [0, 0, 'D' , [EBiomeFlags.sky]  ],
     },
     base: [
       'поле',
@@ -402,7 +406,7 @@
         affinityStr = EBiomes.list[objName][2]
         resourceStr = EBiomes.list[objName].slice(0,2)
         //FIXME move this to initialization
-        if(!EBiomes.list[objName][3].includes(EBiomeExtras.isSky)) {
+        if(!EBiomes.list[objName][3].includes(EBiomeFlags.sky)) {
           resourceStr[0] += BASE_FOOD
           resourceStr[1] += BASE_METAL 
         }
