@@ -471,7 +471,7 @@
     const list = getEmpiresList().colors
     const invList = swapKnV(list)
     const ress = getPlanetResources(nameEl.innerText)
-    let bgs = nameEl.parentNode.style
+    let bgs = nameEl.style
     if(list[empireName]
       && bgs.backgroundColor == list[empireName]
     ) return null
