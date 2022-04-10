@@ -233,11 +233,9 @@
       const target = planet.querySelector('.affinities').children[EAffinities.dict[affinity.type]]
       if(!target.innerText) target.innerText = 0
       if(!revert)
-        target.innerText = +target.innerText
-          + affinity.num/ONE_BIOME_PER_CELL?CELLS_COUNT:1
+        target.innerText = +target.innerText + affinity.num
       else
-        target.innerText = +target.innerText
-          - affinity.num/ONE_BIOME_PER_CELL?CELLS_COUNT:1
+        target.innerText = +target.innerText - affinity.num
 
       if(+target.innerText <= 0) target.innerText = ''
     }
@@ -333,11 +331,12 @@
 
   function setBiome(cell, biomeName) {
     const planet = cell.parentNode.parentNode.parentNode
-    if(cell.className) {
+    const ignoreResources = ONE_BIOME_PER_CELL && cell.previousElementSibling != null
+    if(cell.className && !ignoreResources) {
       TPlanet.params.update(planet, EBiomes.list[cell.className], EBiomes.list[cell.className][2], true)
     }
     cell.className = biomeName
-    updatePlanetResources(planet, EObjTypes.biome, biomeName)
+    if(!ignoreResources) updatePlanetResources(planet, EObjTypes.biome, biomeName)
   }
 
   function calculateBiomeRelations(biome1, biome2) {
