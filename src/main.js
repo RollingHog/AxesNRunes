@@ -146,7 +146,8 @@
 
   const EMapEditModes = {
     default: null,
-    rename: 'rename'
+    rename: 'rename',
+    choosingHomeworld: 'choosingHomeworld',
   }
 
   const mapEditorData = {
@@ -412,6 +413,9 @@
       case EMapEditModes.rename:
         editCellName(el)
         break
+      case EMapEditModes.choosingHomeworld:
+        choosingHomeworld.done(el)
+        break
     }
   }
 
@@ -431,12 +435,14 @@
     start: function(el) {
       el.innerText = '?'
       choosingHomeworld.el = el
+      mapEditorData.mode = EMapEditModes.choosingHomeworld
     },
     done: function (el) {
       const empireName = choosingHomeworld.el.parentNode.parentNode.rows[0].cells[0].innerText
       choosingHomeworld.el.innerText = el.innerText
       setPlanetOwner(el, empireName)
       choosingHomeworld.el = null
+      mapEditorData.mode = EMapEditModes.default
     },
     getEmpireName: function () {
       return
@@ -452,11 +458,6 @@
   }
 
   function selectEmpireOnEl(el) {
-    if(choosingHomeworld.el) {
-      //we're choosing homeworld
-      choosingHomeworld.done(el)
-      return
-    }
     let objs = Object.keys(getEmpiresList().colors)
     let t = prompt( "Выбрать империю:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
     if(t && objs[t]) {
