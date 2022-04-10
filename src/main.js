@@ -6,7 +6,7 @@
 
   const SPICY_BIOME_GENERATION = true
 
-  const LAYERS_COUNT = 4
+  // const LAYERS_COUNT = 4
   const CELLS_COUNT = 4
 
   const ONE_BIOME_PER_CELL = true
@@ -17,6 +17,7 @@
     building  : 'building',
   }
 
+  // eslint-disable-next-line no-unused-vars
   const EResourceTypes = {
     food : 'food',
     metal : 'metal',
@@ -148,6 +149,9 @@
     brush: null
   }
 
+  const allPage = getEl('allPage')
+
+  // eslint-disable-next-line no-unused-vars
   const log = console.log
   HTMLElement.prototype.qs = HTMLElement.prototype.querySelector
   HTMLElement.prototype.qsa = HTMLElement.prototype.querySelectorAll
@@ -330,7 +334,7 @@
   }
 
   function setBuilding(cell, objectTextureName) {
-    planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
+    const planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
     let name = cell.className
     if(name) {
       TPlanet.params.update(planet, EBldngs.list[name].effects.res, EBldngs.list[name].effects.aff, true)
@@ -340,7 +344,7 @@
   }
 
   function setUnit(cell, objectTextureName) {
-    planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
+    const planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
     if(cell.className) {
       TPlanet.params.update(planet, EUnits.list[cell.className], EUnits.list[cell.className][2], true)
     }
@@ -516,20 +520,17 @@
     )
   }
 
-  function edit(el) {
-    const res = prompt("", el.innerHTML)
-    if(res) el.innerHTML = res
-  }
-
   function capitalizeString(string) {
     return string.charAt(0).toUpperCase() + string.slice(1)
   }
 
+  // eslint-disable-next-line no-unused-vars
   function savePage() {
-    downloadhref.href = 'data:application/xml;charset=utf-8, '+allPage.innerHTML
-    downloadhref.click()
+    getEl('downloadhref').href = 'data:application/xml;charset=utf-8, '+allPage.innerHTML
+    getEl('downloadhref').click()
   }
 
+  // eslint-disable-next-line no-unused-vars
   function loadPage() {
     allPage.innerHTML=prompt('Весь текст из файла сюда')
   }
@@ -571,7 +572,7 @@
     }
 
     getEl('map').remove()
-    getEl('allPage').insertBefore(map, getEl('allPage').firstChild)
+    allPage.insertBefore(map, allPage.firstChild)
 
     console.timeEnd('map generation')
   }
@@ -601,13 +602,13 @@
     let t = ''
 
     for (const i in EBldngs.list) {
-      buildings_test.innerHTML += `<td class='${i}' title='${i}'>`
+      getEl('buildings_test').innerHTML += `<td class='${i}' title='${i}'>`
         t += `.${i} { background-image: url(images/buildings/${i}.png); }\n`
     }
     addStyle('style__building_images', t)
 
     for (const i in EUnits.list) {
-      units_test.innerHTML += `<td class='${i}'  title='${i}'>`
+      getEl('units_test').innerHTML += `<td class='${i}'  title='${i}'>`
       t += `.${i} { background-image: url(images/units/${i}.png); }\n`
     }
     addStyle('style__unit_images', t)
