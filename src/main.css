@@ -54,14 +54,14 @@ table {
 
 .небо         { background:white;           }
 
-.цвет-боги    { background:sandybrown;      color: white;}
-.цвет-природа { background:lightgreen;      }
-.цвет-лёд     { background:lightblue;       }
-.цвет-смерть  { background:grey;            color: white;}
+.цвет-боги    , .affinities>td:nth-child(1) { background:sandybrown;      color: white;}
+.цвет-природа , .affinities>td:nth-child(2) { background:lightgreen;      }
+.цвет-лёд     , .affinities>td:nth-child(3) { background:lightblue;       }
+.цвет-смерть  , .affinities>td:nth-child(4) { background:grey;            color: white;}
 
-.цвет-еда     { background:green;           color: white;}
-.цвет-руда    { background:gold;  }
-.цвет-души    { background:lightgrey;       }
+.цвет-еда     , .resources>td:nth-child(1) { background:green;           color: white;}
+.цвет-руда    , .resources>td:nth-child(2) { background:gold;  }
+.цвет-души    , .resources>td:nth-child(3) { background:lightgrey;       }
 
 #image_tests td {
   height: 26px;
