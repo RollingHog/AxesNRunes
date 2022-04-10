@@ -114,7 +114,6 @@
     effects: BldngEffects(effects)
   })
 
-  //TODO add units/buildings table for visual testing
   // prereq, cost, effects[resources, affinities, other], repeatingEffects (same array)
   const EBldngs = {
     list: {
@@ -174,7 +173,7 @@
   function parseAffinityStr(affinityString) {
     affinityString = affinityString.trim()
     return {
-      type: affinityString.charAt(),
+      type: affinityString.charAt() || null,
       num:  +affinityString.substring(1) || 1
     }
   }
