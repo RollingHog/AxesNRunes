@@ -9,6 +9,8 @@
   // const LAYERS_COUNT = 4
   const CELLS_COUNT = 2
 
+  const ONE_BIOME_PER_CELL = false
+
   const EObjTypes = {
     biome     : 'biome',
     unit      : 'unit',
@@ -329,11 +331,12 @@
 
   function setBiome(cell, biomeName) {
     const planet = cell.parentNode.parentNode.parentNode
-    if(cell.className) {
+    const ignoreResources = ONE_BIOME_PER_CELL && cell.previousElementSibling != null
+    if(cell.className && !ignoreResources) {
       TPlanet.params.update(planet, EBiomes.list[cell.className], EBiomes.list[cell.className][2], true)
     }
     cell.className = biomeName
-    updatePlanetResources(planet, EObjTypes.biome, biomeName)
+    if(!ignoreResources) updatePlanetResources(planet, EObjTypes.biome, biomeName)
   }
 
   function calculateBiomeRelations(biome1, biome2) {
