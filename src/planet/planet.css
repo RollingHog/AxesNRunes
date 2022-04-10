@@ -39,6 +39,10 @@
 .cell>tbody>tr>td:hover::after {
   display: inline-block;
 }
+
+#image_tests td::after {
+  display: none;
+}
 /* tooltip end */
 
 .planet .belongs {
