@@ -527,6 +527,14 @@
     getEl('downloadhref').click()
   }
 
+  function onGlobalKeyDown(e) {
+    // log(e)
+    if(e.code == 'KeyS' && e. ctrlKey) {
+      savePage()
+      return false
+    }
+  }
+
   // eslint-disable-next-line no-unused-vars
   function loadPage() {
     allPage.innerHTML=prompt('Весь текст из файла сюда')
@@ -621,6 +629,8 @@
     // tr.affinities, .belongs, .resources {
     //   display: none;
     // }
+
+    document.body.onkeydown = onGlobalKeyDown
 
     console.timeEnd('init')
   }
