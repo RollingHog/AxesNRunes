@@ -11,8 +11,6 @@
 
   const ONE_BIOME_PER_CELL = true
 
-  const ONE_BIOME_PER_CELL = false
-
   const EObjTypes = {
     biome     : 'biome',
     unit      : 'unit',
