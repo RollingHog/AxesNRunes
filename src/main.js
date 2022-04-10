@@ -148,11 +148,16 @@
     default: null,
     rename: 'rename',
     choosingHomeworld: 'choosingHomeworld',
+    biomes: 'biomes',
   }
 
   const mapEditorData = {
     mode: EMapEditModes.default,
-    brush: null
+    brush: null,
+    setMode(mode) {
+      mapEditorData.mode = mode
+      mapEditorData.brush = null
+    }
   }
 
   const allPage = getEl('allPage')
@@ -264,52 +269,50 @@
     return Math.floor(Math.random() * (maxInclusive - min + 1)) + min
   }
 
-  function onCellClick() {
+  function onCellClick(el) {
+    if(el instanceof Event) el = el.target
     let t, objs
-    if(this.nextSibling.nextSibling) {
-      //left, building
-      //if building exists - upgrade?
-      objs = Object.keys(EBldngs.list)
-      // this.innerHTML = '<select>' + objs.map(e => `<option value=${e}>${e}`).join('\n')
-      t = prompt("Новое здание:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
-      if(t && objs[t]) {
-        setBuilding(this, objs[t])
-      } else if(t == '-') {
-        setBuilding(this, '')
-      }
-    } else {
-      // right, unit
-      objs = Object.keys(EUnits.list)
-      t = prompt("Новый юнит:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
-      if(t && objs[t]) {
-        setUnit(this, objs[t])
-      } else if(t == '-') {
-        setUnit(this, '')
-      }
-    }
-    return
-
-    /*
     switch (mapEditorData.mode) {
-      case 'biomes':
-        if(!mapEditorData.brush)
-          this.classList = ""
-        else
-          this.classList = mapEditorData.brush
+      case EMapEditModes.default:
+        if(this.nextSibling.nextSibling) {
+          //left, building
+          //if building exists - upgrade?
+          objs = Object.keys(EBldngs.list)
+          // this.innerHTML = '<select>' + objs.map(e => `<option value=${e}>${e}`).join('\n')
+          t = prompt("Новое здание:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
+          if(t && objs[t]) {
+            setBuilding(this, objs[t])
+          } else if(t == '-') {
+            setBuilding(this, '')
+          }
+        } else {
+          // right, unit
+          objs = Object.keys(EUnits.list)
+          t = prompt("Новый юнит:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
+          if(t && objs[t]) {
+            setUnit(this, objs[t])
+          } else if(t == '-') {
+            setUnit(this, '')
+          }
+        }
         break
+      case EMapEditModes.biomes:
+        setBiome(el, mapEditorData.brush)
+        break
+    }
+    /*
+
       case 'units':
-        if(applyUnit == "Сброс")
+        if(mapEditorData.brush == "Сброс")
           getUnit(this).innerHTML = ""
         else
-          getUnit(this).innerHTML = createUnit(applyUnit)
+          getUnit(this).innerHTML = createUnit(mapEditorData.brush)
         break
       case 'empires':
         if(applyEmpire == "Сброс")
           setEmpire(this, "")
         else
           setEmpire(this, applyEmpire)
-        break
-      case null:
         break
     }
     */
@@ -336,6 +339,7 @@
   }
 
   function setBiome(cell, biomeName) {
+    if(!biomeName) return
     const planet = cell.parentNode.parentNode.parentNode
     const ignoreResources = ONE_BIOME_PER_CELL && cell.previousElementSibling != null
     if(cell.className && !ignoreResources) {
@@ -435,14 +439,14 @@
     start: function(el) {
       el.innerText = '?'
       choosingHomeworld.el = el
-      mapEditorData.mode = EMapEditModes.choosingHomeworld
+      mapEditorData.setMode(EMapEditModes.choosingHomeworld)
     },
     done: function (el) {
       const empireName = choosingHomeworld.el.parentNode.parentNode.rows[0].cells[0].innerText
       choosingHomeworld.el.innerText = el.innerText
       setPlanetOwner(el, empireName)
       choosingHomeworld.el = null
-      mapEditorData.mode = EMapEditModes.default
+      mapEditorData.setMode(EMapEditModes.default)
     },
     getEmpireName: function () {
       return
