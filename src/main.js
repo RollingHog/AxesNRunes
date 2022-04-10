@@ -475,7 +475,7 @@
     const list = getEmpiresList().colors
     const invList = swapKnV(list)
     const ress = getPlanetResources(nameEl.innerText)
-    let bgs = nameEl.parentNode.style
+    let bgs = nameEl.style
     if(list[empireName]
       && bgs.backgroundColor == list[empireName]
     ) return null
@@ -583,13 +583,15 @@
 
     for (const i in EBldngs.list) {
       getEl('buildings_test').innerHTML += `<td class='${i}' title='${i}'>`
-        t += `.${i} { background-image: url(images/buildings/${i}.png); }\n`
+      t += `.${i} { background-image: url(images/buildings/${i}.png); }\n`
+        + `.${i}::after {content: "${JSON.stringify(EBldngs.list[i]).replace(/"/g,'\'')}";}\n\n`
     }
     addStyle('style__building_images', t)
 
     for (const i in EUnits.list) {
       getEl('units_test').innerHTML += `<td class='${i}'  title='${i}'>`
       t += `.${i} { background-image: url(images/units/${i}.png); }\n`
+        + `.${i}::after {content: "${JSON.stringify(EUnits.list[i]).replace(/"/g,'\'')}";}\n\n`
     }
     addStyle('style__unit_images', t)
 
