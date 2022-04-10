@@ -144,8 +144,13 @@
     }
   }
 
+  const EMapEditModes = {
+    default: null,
+    rename: 'rename'
+  }
+
   const mapEditorData = {
-    mode: null,
+    mode: EMapEditModes.default,
     brush: null
   }
 
@@ -397,7 +402,20 @@
     return getEl('map').tBodies[0].rows[y].cells[x+1]
   }
 
-  function editName(el) {
+  function onCellNameClick(el) {
+    if(el instanceof Event) el = el.target
+    // default
+    switch(mapEditorData.mode){
+      case EMapEditModes.default:
+        selectEmpireOnEl(el)
+        break
+      case EMapEditModes.rename:
+        editCellName(el)
+        break
+    }
+  }
+
+  function editCellName(el) {
     if(el instanceof Event) el = el.target
     const res = prompt("", el.innerHTML)
     if(!res) return
@@ -407,9 +425,6 @@
     }
     getEl(el.innerHTML).id = capitalizeString(res)
     el.innerHTML = capitalizeString(res)
-    //after name first set - we never change it, we only select empire
-    el.onclick = selectEmpireOnEl
-    selectEmpireOnEl(el)
   }
 
   const choosingHomeworld = {
@@ -430,7 +445,6 @@
   }
 
   function editEmpireName(el) {
-    if(el instanceof Event) el = el.target
     const newName = prompt("", el.innerHTML)
     if(!newName) return
     getEl(el.innerHTML).id = newName
@@ -438,7 +452,6 @@
   }
 
   function selectEmpireOnEl(el) {
-    if(el instanceof Event) el = el.target
     if(choosingHomeworld.el) {
       //we're choosing homeworld
       choosingHomeworld.done(el)
@@ -447,7 +460,7 @@
     let objs = Object.keys(getEmpiresList().colors)
     let t = prompt( "Выбрать империю:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
     if(t && objs[t]) {
-        setPlanetOwner(el, objs[t])
+      setPlanetOwner(el, objs[t])
     } else if(t == '-') {
       setPlanetOwner(el, null)
     }
@@ -571,7 +584,7 @@
     }
 
     for(let i of Array.from(document.querySelectorAll('.belongs>.name'))) {
-      i.onclick = editName
+      i.onclick = onCellNameClick
     }
 
     for(let i of Array.from(document.querySelectorAll('.empire-name'))) {
