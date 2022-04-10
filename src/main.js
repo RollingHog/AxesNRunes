@@ -529,10 +529,30 @@
 
   function onGlobalKeyDown(e) {
     // log(e)
-    if(e.code == 'KeyS' && e. ctrlKey) {
-      savePage()
-      return false
+    if(e.ctrlKey) {
+      switch (e.code) {
+        case 'KeyS':
+          savePage()
+          break
+        default:
+          //proceed as usual
+          return e
+      }
+    } else {
+      //usual keys
+      switch (e.code) {
+        case 'F1':
+          mapEditorData.setMode(EMapEditModes.default)
+          break
+        case 'F2':
+          mapEditorData.setMode(EMapEditModes.rename)
+          break
+        default:
+          //proceed as usual
+          return e
+      }
     }
+    return false
   }
 
   // eslint-disable-next-line no-unused-vars
