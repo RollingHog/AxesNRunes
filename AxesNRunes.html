@@ -90,10 +90,6 @@
   const BASE_METAL  = 2
   //  food, ore, affinity, flags
   const EBiomes = {
-    c: {
-      //compiled
-      list: []
-    },
     list: {
       'поле':         [1, 1, Aff('A' ), []  ],
       'лес':          [1, 0, Aff('N2'), []  ],
@@ -155,24 +151,36 @@
     }
   }
 
+  const BldngEffects = arr => ({
+    res: arr[0] || [],
+    aff: Aff(arr[1] || ''), 
+    other: arr[2] || null,
+  })
+
+  const Bldng = (prereq, cost, effects) => ({
+    prereq, 
+    cost, 
+    effects: BldngEffects(effects)
+  })
+
   //TODO add units/buildings table for visual testing
-  // prereq, cost, completionEffects[resources, affinities, other], repeatingEffects (same array)
-  const EBuildings = {
+  // prereq, cost, effects[resources, affinities, other], repeatingEffects (same array)
+  const EBldngs = {
     list: {
       //pregen
-      "Руины"      : ["", "", [], []],
+      "Руины"         : Bldng("", "", [,], []),
 
-      "Столица"       : ["", "", [], []],
-      "Ферма"         : ["", "", [], []],
-      "Шахта"         : ["", "", [], []],
+      "Столица"       : Bldng("", "", [,], []),
+      "Ферма"         : Bldng("", "", [[3],], []),
+      "Шахта"         : Bldng("", "", [,], []),
       // Divine
-      "Храм"          : ["", "", [], []],
+      "Храм"          : Bldng("", "", [,'D3'], []),
       // Nature
-      "Круг_друидов"  : ["", "", [], []],
+      "Круг_друидов"  : Bldng("", "", [,'N3'], []),
       // Ice
-      "Алтарь_льда"   : ["", "", [], []],
+      "Алтарь_льда"   : Bldng("", "", [,'I3'], []),
       // Necromancy
-      "Зиккурат"      : ["", "", [], []],
+      "Зиккурат"      : Bldng("", "", [,'N3'], []),
     }
   }
 
@@ -259,9 +267,13 @@
       for (let i in list) {
         if(!resourceArray[i]) continue
         if(!list[i].innerText) list[i].innerText = 0
-        list[i].innerText = +list[i].innerText + resourceArray[i]
+        if(!revert)
+          list[i].innerText = +list[i].innerText + resourceArray[i]
+        else
+          list[i].innerText = +list[i].innerText - resourceArray[i]
       }
     }, 
+
     updateAffinity: function  (planet, affinity, revert = false) {
       if(!affinity || !affinity.type) return
       const target = planet.querySelector('.affinities').children[EAffinities.dict[affinity.type]]
@@ -315,7 +327,7 @@
     if(this.nextSibling.nextSibling) {
       //left, building
       //if building exists - upgrade?
-      objs = Object.keys(EBuildings.list)
+      objs = Object.keys(EBldngs.list)
       // this.innerHTML = '<select>' + objs.map(e => `<option value=${e}>${e}`).join('\n')
       t = prompt("Новое здание:\n- - удалить\n"+objs.map((e,i)=>i+' - '+e).join('\n'))
       if(t && objs[t]) {
@@ -367,19 +379,25 @@
 
   function setBuilding(cell, objectTextureName) {
     planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
-    cell.className = capitalizeString(objectTextureName)
+    let name = cell.className
+    if(name) {
+      TPlanet.params.update(planet, EBldngs.list[name].effects.res, EBldngs.list[name].effects.aff, true)
+    }
+    name = cell.className = capitalizeString(objectTextureName)
+    if(name) TPlanet.params.update(planet, EBldngs.list[name].effects.res, EBldngs.list[name].effects.aff)
   }
 
   function setUnit(cell, objectTextureName) {
     planet = cell.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
-    //TODO check prev and recount affinities
+    if(cell.className) {
+      TPlanet.params.update(planet, EUnits.list[cell.className], EUnits.list[cell.className][2], true)
+    }
     cell.className = objectTextureName
     TPlanet.params.update(planet, EUnits.list[objectTextureName], EUnits.list[objectTextureName][2])
   }
 
   function setBiome(cell, biomeName) {
     const planet = cell.parentNode.parentNode.parentNode
-    //TODO check prev and recount affinities
     if(cell.className) {
       TPlanet.params.update(planet, EBiomes.list[cell.className], EBiomes.list[cell.className][2], true)
     }
@@ -630,7 +648,7 @@
 
     let t = ''
 
-    for (const i in EBuildings.list) {
+    for (const i in EBldngs.list) {
       buildings_test.innerHTML += `<td class='${i}' title='${i}'>`
         t += `.${i} { background-image: url(images/buildings/${i}.png); }\n`
     }
