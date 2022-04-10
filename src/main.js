@@ -57,12 +57,12 @@
     },
     base: [
       'поле',
-      'лес',    
+      'лес',
       'льды'  ,
       'пустошь',
     ],
     relations: {
-      
+
       'поле':         [0, 1],
       'Асгард':       [0, 2],
       'цвет-боги':    [0, 1],
@@ -74,7 +74,7 @@
       'льды':         [-1, 0],
       'Нифльхейм':    [-2, 0],
       'цвет-лёд'    : [-1, 0],
-      
+
       'пустошь':      [0, -1],
       'Хельхейм':     [0, -2],
       'цвет-смерть' : [0, -1],
@@ -101,13 +101,13 @@
 
   const BldngEffects = arr => ({
     res: arr[0] || [],
-    aff: Aff(arr[1] || ''), 
+    aff: Aff(arr[1] || ''),
     other: arr[2] || null,
   })
 
   const Bldng = (prereq, cost, effects) => ({
-    prereq, 
-    cost, 
+    prereq,
+    cost,
     effects: BldngEffects(effects)
   })
 
@@ -116,19 +116,19 @@
   const EBldngs = {
     list: {
       //pregen
-      "Руины"         : Bldng("", "", [,], []),
+      "Руины"         : Bldng("", "", [[],], []),
 
-      "Столица"       : Bldng("", "", [,], []),
+      "Столица"       : Bldng("", "", [[],], []),
       "Ферма"         : Bldng("", "", [[3],], []),
-      "Шахта"         : Bldng("", "", [,], []),
+      "Шахта"         : Bldng("", "", [[],], []),
       // Divine
-      "Храм"          : Bldng("", "", [,'D3'], []),
+      "Храм"          : Bldng("", "", [[],'D3'], []),
       // Nature
-      "Круг_друидов"  : Bldng("", "", [,'N3'], []),
+      "Круг_друидов"  : Bldng("", "", [[],'N3'], []),
       // Ice
-      "Алтарь_льда"   : Bldng("", "", [,'I3'], []),
+      "Алтарь_льда"   : Bldng("", "", [[],'I3'], []),
       // Necromancy
-      "Зиккурат"      : Bldng("", "", [,'N3'], []),
+      "Зиккурат"      : Bldng("", "", [[],'N3'], []),
     }
   }
 
@@ -146,6 +146,7 @@
     brush: null
   }
 
+  // eslint-disable-next-line no-unused-vars
   const log = console.log
   HTMLElement.prototype.qs = HTMLElement.prototype.querySelector
   HTMLElement.prototype.qsa = HTMLElement.prototype.querySelectorAll
@@ -156,8 +157,8 @@
 
   function parseAffinityStr(affinityString) {
     affinityString = affinityString.trim()
-    return { 
-      type: affinityString.charAt(), 
+    return {
+      type: affinityString.charAt(),
       num:  +affinityString.substring(1) || 1
     }
   }
@@ -167,14 +168,14 @@
       let i
       //belongs to
       planet.id = `_${x}_${y}`
-      planet.rows[3].cells[0].innerHTML = planet.id 
+      planet.rows[3].cells[0].innerHTML = planet.id
 
       //sky
       i = 1
       for(let j=0; j<CELLS_COUNT; j++)  {
         setBiome(planet.rows[i].cells[j], 'небо')
       }
-      
+
       //ground
       i = 2
       let biome = null
@@ -220,7 +221,7 @@
         else
           list[i].innerText = +list[i].innerText - resourceArray[i]
       }
-    }, 
+    },
 
     updateAffinity: function  (planet, affinity, revert = false) {
       if(!affinity || !affinity.type) return
@@ -265,9 +266,9 @@
   }
 
   function getRandomInt(min, maxInclusive) {
-    min = Math.ceil(min);
-    maxInclusive = Math.floor(maxInclusive);
-    return Math.floor(Math.random() * (maxInclusive - min + 1)) + min;
+    min = Math.ceil(min)
+    maxInclusive = Math.floor(maxInclusive)
+    return Math.floor(Math.random() * (maxInclusive - min + 1)) + min
   }
 
   function onCellClick() {
@@ -297,27 +298,27 @@
 
     switch (mapEditorData.mode) {
       case 'biomes':
-        if(!mapEditorData.brush) 
-          this.classList = "";
+        if(!mapEditorData.brush)
+          this.classList = ""
         else
-          this.classList = mapEditorData.brush;
-        break;
+          this.classList = mapEditorData.brush
+        break
       case 'units':
-        if(applyUnit == "Сброс") 
-          getUnit(this).innerHTML = "";
+        if(applyUnit == "Сброс")
+          getUnit(this).innerHTML = ""
         else
           getUnit(this).innerHTML = createUnit(applyUnit)
-        break;
+        break
       case 'empires':
-        if(applyEmpire == "Сброс") 
-          setEmpire(this, "");
+        if(applyEmpire == "Сброс")
+          setEmpire(this, "")
         else
-          setEmpire(this, applyEmpire);
-        break;
+          setEmpire(this, applyEmpire)
+        break
       case null:
-        break;
+        break
     }
-    
+
   }
 
   function placeObject(planetName, cellLevel, cellNumber, objectType, objectTextureName, ownerColor) {
@@ -354,8 +355,8 @@
   }
 
   function calculateBiomeRelations(biome1, biome2) {
-    let 
-      p1 = EBiomes.relations[biome1], 
+    let
+      p1 = EBiomes.relations[biome1],
       p2 = EBiomes.relations[biome2]
     return Math.floor(Math.sqrt(
       Math.pow((p1[0]-p2[0]),2)+Math.pow((p1[1]-p2[1]),2)
@@ -371,13 +372,13 @@
         //FIXME move this to initialization
         if(!EBiomes.list[objName][3].includes(EBiomeFlags.sky)) {
           resourceStr[0] += BASE_FOOD
-          resourceStr[1] += BASE_METAL 
+          resourceStr[1] += BASE_METAL
         }
-        break;
-      case EObjTypes.unit: 
-        break;
-      case EObjTypes.building: 
-        break;
+        break
+      case EObjTypes.unit:
+        break
+      case EObjTypes.building:
+        break
     }
     TPlanet.params.update(planet, resourceStr, affinityStr, revert)
   }
@@ -395,9 +396,9 @@
       root.qs('.food-income').innerText  = +root.qs('.food-income').innerText + +resources[0]
       root.qs('.ore-income').innerText   = +root.qs('.ore-income').innerText  + +resources[1]
     } else {
-      root.qs('.food-income').innerText  
+      root.qs('.food-income').innerText
         = Math.max(+root.qs('.food-income').innerText - +resources[0], 0)
-      root.qs('.ore-income').innerText   
+      root.qs('.ore-income').innerText
         = Math.max(+root.qs('.ore-income').innerText  - +resources[1], 0)
     }
   }
@@ -437,7 +438,7 @@
       choosingHomeworld.el = null
     },
     getEmpireName: function () {
-      return 
+      return
     },
     el: null
   }
@@ -473,11 +474,11 @@
     let res = {
       colors: {}
     }
-    
+
     empires.forEach( el => {
       const tColor = el.querySelector('.empire-color').innerText.trim()
       el.querySelector('.empire-color').style.backgroundColor = tColor
-      res.colors[ el.querySelector('.empire-name').innerHTML ] 
+      res.colors[ el.querySelector('.empire-name').innerHTML ]
         = tColor
     })
     return res
@@ -488,7 +489,7 @@
     const invList = swapKnV(list)
     const ress = getPlanetResources(nameEl.innerText)
     let bgs = nameEl.parentNode.style
-    if(list[empireName] 
+    if(list[empireName]
       && bgs.backgroundColor == list[empireName]
     ) return null
 
@@ -518,16 +519,16 @@
   }
 
   function capitalizeString(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1)
   }
- 
+
   function savePage() {
-    downloadhref.href = 'data:application/xml;charset=utf-8, '+allPage.innerHTML;
-    downloadhref.click();
+    downloadhref.href = 'data:application/xml;charset=utf-8, '+allPage.innerHTML
+    downloadhref.click()
   }
 
   function loadPage() {
-    allPage.innerHTML=prompt('Весь текст из файла сюда');
+    allPage.innerHTML=prompt('Весь текст из файла сюда')
   }
 
   function generateMap() {
@@ -541,29 +542,29 @@
 
     map.tHead.insertRow(0)
     for(let j=0; j<COLS_COUNT; j++)  {
-      map.tHead.rows[0].insertCell(0);
-      map.tHead.rows[0].cells[0].classList = 'map-border';
-      map.tHead.rows[0].cells[0].innerHTML = COLS_COUNT-j-1;
+      map.tHead.rows[0].insertCell(0)
+      map.tHead.rows[0].cells[0].classList = 'map-border'
+      map.tHead.rows[0].cells[0].innerHTML = COLS_COUNT-j-1
     }
-    map.tHead.rows[0].insertCell(0);
+    map.tHead.rows[0].insertCell(0)
     map.tHead.rows[0].cells[0].classList = 'map-border'
     map.tHead.rows[0].cells[0].innerHTML = ''
 
     for(let i=0; i<ROWS_COUNT; i++)  {
       let y = ROWS_COUNT-i-1, x = 0
-      
+
       map.tBodies[0].insertRow(0)
       for(let j=0; j<COLS_COUNT; j++)  {
         x = COLS_COUNT-j-1
-        map.tBodies[0].rows[0].insertCell(0);
+        map.tBodies[0].rows[0].insertCell(0)
         // if(i%2==1 && j%2==0 || i%2==0 && j%2==1) continue
         map.tBodies[0].rows[0].cells[0].innerHTML = getEl('planet_template').innerHTML
 
         TPlanet.populate(map.tBodies[0].rows[0].cells[0].children[0], x, y)
       }
-      map.tBodies[0].rows[0].insertCell(0);
+      map.tBodies[0].rows[0].insertCell(0)
       map.tBodies[0].rows[0].cells[0].classList= 'shakal map-border'
-      map.tBodies[0].rows[0].cells[0].innerHTML = y;
+      map.tBodies[0].rows[0].cells[0].innerHTML = y
     }
 
     getEl('map').remove()
