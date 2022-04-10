@@ -25,6 +25,22 @@
   background-size: cover;
 }
 
+/* for building/unit tooltip */
+.cell>tbody>tr>td:after {
+  padding: 2px;
+  display: none;
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  background-color: #fef4c5;
+  border: 1px solid #d4b943;
+}
+
+.cell>tbody>tr>td:hover::after {
+  display: inline-block;
+}
+/* tooltip end */
+
 .planet .belongs {
   height: 19px;
 }
