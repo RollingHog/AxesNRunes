@@ -239,24 +239,6 @@
     }
   }
 
-  class TPlanets {
-    constructor() {
-      this.planets = []
-    }
-
-    newPlanet(x, y) {
-      const p = {
-        name: `${x}_${y}`,
-        x, y,
-        owner: null,
-        cells: [
-          [ [null,null, 'небо'], [null,null, 'небо'] ],
-          [ [null,null, ''], [null,null, ''] ],
-        ]
-      }
-    }
-  }
-
   function getEl(name) {
     return document.getElementById(name)
   }
@@ -299,6 +281,7 @@
     }
     return
 
+    /*
     switch (mapEditorData.mode) {
       case 'biomes':
         if(!mapEditorData.brush)
@@ -321,12 +304,8 @@
       case null:
         break
     }
+    */
 
-  }
-
-  function placeObject(planetName, cellLevel, cellNumber, objectType, objectTextureName, ownerColor) {
-    const target = getCell(planetName, cellLevel, cellNumber).children[0].rows[0].cells[objectType]
-    target.className = capitalizeString(objectTextureName)
   }
 
   function setBuilding(cell, objectTextureName) {
@@ -410,8 +389,9 @@
     return getEl(planetName).rows[cellLevel].cells[cellNumber]
   }
 
+  // eslint-disable-next-line no-unused-vars
   function getCellByXY(x, y) {
-    return map.tBodies[0].rows[y].cells[x+1]
+    return getEl('map').tBodies[0].rows[y].cells[x+1]
   }
 
   function editName(el) {
