@@ -147,6 +147,7 @@
     rename: 'rename',
     choosingHomeworld: 'choosingHomeworld',
     biomes: 'biomes',
+    empires: 'empires',
   }
 
   const mapEditorData = {
@@ -453,6 +454,7 @@
   }
 
   function editEmpireName(el) {
+    if(el instanceof Event) el = el.target
     const newName = prompt("", el.innerHTML)
     if(!newName) return
     getEl(el.innerHTML).id = newName
@@ -600,6 +602,7 @@
     console.timeEnd('map generation')
   }
 
+  // INIT
   function init() {
     console.time('init')
 
@@ -620,6 +623,14 @@
 
     for(let i of Array.from(document.querySelectorAll('.empire-name'))) {
       i.onclick = editEmpireName
+    }
+
+    for(let i of Array.from(document.querySelectorAll('.empire-color'))) {
+      i.onclick = function(e) {
+        if(e instanceof Event) e = e.target
+        mapEditorData.setMode(EMapEditModes.empires)
+        mapEditorData.brush = e.innerHTML
+      }
     }
 
     let t = ''

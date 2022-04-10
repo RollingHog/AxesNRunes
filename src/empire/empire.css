@@ -23,3 +23,7 @@ table.empire>tbody>tr>td {
 .empire .header {
   background: gainsboro;
 }
+
+.empire-color {
+  cursor: pointer;
+}
