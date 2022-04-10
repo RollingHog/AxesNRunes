@@ -89,8 +89,8 @@
   // ATK, DEF, MAINTANCE, SPECIAL
   const EUnits = {
     list: {
-      "мечник"  : [],
-      "летучий_корабль" : [],
+      "Мечник"  : [],
+      "Летучий_корабль" : [],
       // Divine
       // Nature
       // Ice
