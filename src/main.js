@@ -2,14 +2,14 @@
   //Divine, Nature, Ice, Necro
 
   const ROWS_COUNT = 6
-  const COLS_COUNT = 12
+  const COLS_COUNT = 7
 
   const SPICY_BIOME_GENERATION = true
 
   // const LAYERS_COUNT = 4
-  const CELLS_COUNT = 2
+  const CELLS_COUNT = 4
 
-  const ONE_BIOME_PER_CELL = false
+  const ONE_BIOME_PER_CELL = true
 
   const EObjTypes = {
     biome     : 'biome',
