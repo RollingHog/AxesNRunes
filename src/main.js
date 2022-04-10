@@ -221,9 +221,9 @@
       TPlanet.updateResources(planet, INITIAL_RESOURCES.PLANET)
     },
     params: {
-      update: function (planetName, resourceArray, affinityString, revert = false) {
+      update: function (planetName, resourceArray, affinity, revert = false) {
         TPlanet.updateResources (planetName, resourceArray, revert)
-        TPlanet.updateAffinity  (planetName, affinityString, revert)
+        TPlanet.updateAffinity  (planetName, affinity, revert)
       },
     },
     //food, metal, two types of souls
