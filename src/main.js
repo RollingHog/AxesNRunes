@@ -119,19 +119,19 @@
   const EBldngs = {
     list: {
       //pregen
-      "Руины"         : Bldng("", "", [,], []),
+      "Руины"         : Bldng("", "", [[],], []),
 
-      "Столица"       : Bldng("", "", [,], []),
+      "Столица"       : Bldng("", "", [[],], []),
       "Ферма"         : Bldng("", "", [[3],], []),
-      "Шахта"         : Bldng("", "", [,], []),
+      "Шахта"         : Bldng("", "", [[],], []),
       // Divine
-      "Храм"          : Bldng("", "", [,'D3'], []),
+      "Храм"          : Bldng("", "", [[],'D3'], []),
       // Nature
-      "Круг_друидов"  : Bldng("", "", [,'N3'], []),
+      "Круг_друидов"  : Bldng("", "", [[],'N3'], []),
       // Ice
-      "Алтарь_льда"   : Bldng("", "", [,'I3'], []),
+      "Алтарь_льда"   : Bldng("", "", [[],'I3'], []),
       // Necromancy
-      "Зиккурат"      : Bldng("", "", [,'N3'], []),
+      "Зиккурат"      : Bldng("", "", [[],'N3'], []),
     }
   }
 
@@ -234,10 +234,10 @@
       if(!target.innerText) target.innerText = 0
       if(!revert)
         target.innerText = +target.innerText
-          + affinityString.length/ONE_BIOME_PER_CELL?CELLS_COUNT:1
+          + affinity.num/ONE_BIOME_PER_CELL?CELLS_COUNT:1
       else
         target.innerText = +target.innerText
-          - affinityString.length/ONE_BIOME_PER_CELL?CELLS_COUNT:1
+          - affinity.num/ONE_BIOME_PER_CELL?CELLS_COUNT:1
 
       if(+target.innerText <= 0) target.innerText = ''
     }
