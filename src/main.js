@@ -11,10 +11,11 @@
 
   const ONE_BIOME_PER_CELL = true
 
-  const EObjTypes = {
+  const EObjType = {
     biome     : 'biome',
     unit      : 'unit',
     building  : 'building',
+    resource  : 'resource',
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -89,6 +90,9 @@
   // ATK, DEF, MAINTANCE, SPECIAL
   const EUnits = {
     list: {
+      "Случайный_юнит"  : [],
+      "Неупокоенный_дух"  : [],
+      "Дух_предков"  : [],
       "Мечник"  : [],
       "Летучий_корабль" : [],
       // Divine
@@ -117,8 +121,13 @@
   const EBldngs = {
     list: {
       //pregen
+      "Случайное_здание": Bldng("", "", [[],], []),
+      "Случайный_ресурс": Bldng("", "", [[],], []),
+      "Технология_бесплатно": Bldng("", "", [[],], []),
+      "Фрагмент_артефакта": Bldng("", "", [[],], []),
       "Руины"         : Bldng("", "", [[],], []),
 
+      //common
       "Столица"       : Bldng("", "", [[],], []),
       "Ферма"         : Bldng("", "", [[3],], []),
       "Шахта"         : Bldng("", "", [[],], []),
@@ -140,6 +149,19 @@
       'I': 2,
       'D': 3,
     }
+  }
+
+  const biomeGenerationTable = {
+    1:   [EObjType.building, 'Пиздос1'],
+    50:  null,
+    55:  [EObjType.unit, 'Дикари', '1д4'],
+    65:  [EObjType.unit, 'Неупокоенные Духи', '1д3'],
+    70:  [EObjType.building, 'Случайный_ресурс'],
+    75:  'Стройматериалы (1 здание бесплатно)',
+    80:  [EObjType.unit, 'Случайный_юнит'],
+    85:  [EObjType.building, 'Технология_бесплатно'],
+    99:  [EObjType.building, 'Фрагмент_артефакта'],
+    100: [EObjType.building, 'Пиздос100'],
   }
 
   const EMapEditModes = {
@@ -345,7 +367,7 @@
       TPlanet.params.update(planet, EBiomes.list[cell.className], EBiomes.list[cell.className][2], true)
     }
     cell.className = biomeName
-    if(!ignoreResources) updatePlanetResources(planet, EObjTypes.biome, biomeName)
+    if(!ignoreResources) updatePlanetResources(planet, EObjType.biome, biomeName)
   }
 
   function calculateBiomeRelations(biome1, biome2) {
@@ -360,7 +382,7 @@
   function updatePlanetResources(planet, objType, objName, revert = false) {
     let affinityStr, resourceStr
     switch(objType) {
-      case EObjTypes.biome:
+      case EObjType.biome:
         affinityStr = EBiomes.list[objName][2]
         resourceStr = EBiomes.list[objName].slice(0,2)
         //FIXME move this to initialization
@@ -369,9 +391,9 @@
           resourceStr[1] += BASE_METAL
         }
         break
-      case EObjTypes.unit:
+      case EObjType.unit:
         break
-      case EObjTypes.building:
+      case EObjType.building:
         break
     }
     TPlanet.params.update(planet, resourceStr, affinityStr, revert)
