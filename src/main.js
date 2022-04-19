@@ -18,6 +18,8 @@
     resource  : 'resource',
   }
 
+  const EObjToEnumType = {}
+
   // eslint-disable-next-line no-unused-vars
   const EResourceTypes = {
     food : 'food',
@@ -53,7 +55,7 @@
       'Нифльхейм':    [1, 1, Aff('I4'), []  ],
       'Хельхейм':     [0, 3, Aff('D3'), []  ],
 
-      'небо'        : [0, 0, Aff('' ) , [EBiomeFlags.sky]  ],
+      'небо'        : [0, 0, Aff(' ') , [EBiomeFlags.sky]  ],
       'цвет-боги'   : [0, 0, Aff('A') , [EBiomeFlags.sky]  ],
       'цвет-природа': [0, 0, Aff('N') , [EBiomeFlags.sky]  ],
       'цвет-лёд'    : [0, 0, Aff('I') , [EBiomeFlags.sky]  ],
@@ -87,35 +89,42 @@
     }
   }
 
-  // ATK, DEF, MAINTANCE, SPECIAL
-  const EUnits = {
-    list: {
-      "Случайный_юнит"  : [],
-      "Неупокоенный_дух"  : [],
-      "Дух_предков"  : [],
-      "Мечник"  : [],
-      "Летучий_корабль" : [],
-      // Divine
-      // Nature
-      // Ice
-      "Йотун" : [],
-      // Necromancy
-      "Скелет_мечник" : [],
-      "Баржа_мертвых" : [],
-    }
-  }
-
-  const BldngEffects = arr => ({
+  const ObjEffects = arr => ({
     res: arr[0] || [],
     aff: Aff(arr[1] || ''),
     other: arr[2] || null,
   })
 
-  const Bldng = (prereq, cost, effects) => ({
+  const Obj = (prereq, cost, effects) => ({
     prereq,
     cost,
-    effects: BldngEffects(effects)
+    effects: ObjEffects(effects)
   })
+
+  const Unit = (ATK, DEF, special, props) => ({
+    ATK, DEF, special,
+    ...Obj(...props),
+  })
+
+  // ATK, DEF, MAINTANCE, SPECIAL
+  const EUnits = {
+    list: {
+      "Случайный_юнит"  : Unit(0, 0, [], ["", "", [[],], []]),
+      "Неупокоенный_дух": Unit(0, 0, [], ["", "", [[],], []]),
+      "Дух_предков"     : Unit(0, 0, [], ["", "", [[],], []]),
+      "Мечник"          : Unit(0, 0, [], ["", "", [[],], []]),
+      "Летучий_корабль" : Unit(0, 0, [], ["", "", [[],], []]),
+      // Divine
+      // Nature
+      // Ice
+      "Йотун"           : Unit(0, 0, [], ["", "", [[],], []]),
+      // Necromancy
+      "Скелет_мечник"   : Unit(0, 0, [], ["", "", [[],], []]),
+      "Баржа_мертвых"   : Unit(0, 0, [], ["", "", [[],], []]),
+    }
+  }
+
+  const Bldng = (...args) => Obj(...args) 
 
   // prereq, cost, effects[resources, affinities, other], repeatingEffects (same array)
   const EBldngs = {
@@ -404,6 +413,16 @@
     if(!el) return null
     return Array.from(el.querySelector('.resources').cells)
       .map(e => e.innerText)
+  }
+
+  function countMapResources() {
+    return Array.from(qsa('#map .planet')).map(e => ({
+      name: e.qs('.belongs .name').innerText,
+      owner: e.qs('.belongs .name').style.backgroundColor || null,
+      population: +e.qs('.belongs .population').innerHTML || 0,
+      affinities: Array.from(e.qs('.affinities').children).map(e=>+e.innerText||0),
+      resources:  Array.from(e.qs('.resources').children).map(e=>+e.innerText||0),
+    }))
   }
 
   function updateEmpireResources(empireName, resources, invert = false) {
