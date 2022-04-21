@@ -415,26 +415,38 @@
       .map(e => e.innerText)
   }
 
+  function parsePlanetResources(planetEl) {
+    const el = planetEl
+
+    return {
+      name: el.qs('.belongs .name').innerText,
+      owner: el.qs('.belongs .name').style.backgroundColor || null,
+      population: +el.qs('.belongs .population').innerHTML || 0,
+      affinities: Array.from(el.qs('.affinities').children).map(e=>+e.innerText||0),
+      resources:  Array.from(el.qs('.resources').children).map(e=>+e.innerText||0),
+      biomes:
+        Array.from(el.tBodies[0].rows[1].cells).map(e=>e.className).concat(
+          Array.from(el.tBodies[0].rows[2].cells).map(e=>e.className)
+        ),
+    }
+  }
+
   function countMapResources() {
-    return Array.from(qsa('#map .planet')).map(e => ({
-      name: e.qs('.belongs .name').innerText,
-      owner: e.qs('.belongs .name').style.backgroundColor || null,
-      population: +e.qs('.belongs .population').innerHTML || 0,
-      affinities: Array.from(e.qs('.affinities').children).map(e=>+e.innerText||0),
-      resources:  Array.from(e.qs('.resources').children).map(e=>+e.innerText||0),
-    }))
+    return Array.from(qsa('#map .planet')).map(e => parsePlanetResources(e) )
   }
 
   function updateEmpireResources(empireName, resources, invert = false) {
     const root = document.querySelector(`#${empireName}.empire`)
+    const foodSum = root.qs('.food-income')
+    const oreSum  = root.qs('.ore-income')
     if(!invert) {
-      root.qs('.food-income').innerText  = +root.qs('.food-income').innerText + +resources[0]
-      root.qs('.ore-income').innerText   = +root.qs('.ore-income').innerText  + +resources[1]
+      foodSum.innerText  = +foodSum.innerText + +resources[0]
+      oreSum.innerText   = +oreSum.innerText  + +resources[1]
     } else {
-      root.qs('.food-income').innerText
-        = Math.max(+root.qs('.food-income').innerText - +resources[0], 0)
-      root.qs('.ore-income').innerText
-        = Math.max(+root.qs('.ore-income').innerText  - +resources[1], 0)
+      foodSum.innerText
+        = Math.max(+foodSum.innerText - +resources[0], 0)
+      oreSum.innerText
+        = Math.max(+oreSum.innerText  - +resources[1], 0)
     }
   }
 
