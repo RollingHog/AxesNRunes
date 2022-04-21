@@ -456,6 +456,7 @@
       res.ore        += i.resources[1]
     }
 
+    empireEl.qs('.population-sum').innerText = res.population
     empireEl.qs('.food-income').innerText = res.food
     empireEl.qs('.ore-income').innerText  = res.ore
   }
