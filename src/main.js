@@ -427,12 +427,37 @@
       biomes:
         Array.from(el.tBodies[0].rows[1].cells).map(e=>e.className).concat(
           Array.from(el.tBodies[0].rows[2].cells).map(e=>e.className)
-        ),
+        ).reduce(function (acc, curr) {
+          return acc[curr] ? ++acc[curr] : acc[curr] = 1, acc
+        }, {}),
     }
   }
 
   function countMapResources() {
     return Array.from(qsa('#map .planet')).map(e => parsePlanetResources(e) )
+  }
+
+  function recountEmpireResources(empireEl) {
+    const empColor = empireEl.qs('.empire-color').innerHTML
+
+    const res = {
+      population: 0,
+      food: 0,
+      ore: 0,
+    }
+
+    const ownedPlanets = Array.from(qsa('#map .planet'))
+      .filter(e => e.qs('.name').style.backgroundColor == empColor)
+      .map(e => parsePlanetResources(e))
+
+    for(let i of ownedPlanets) {
+      res.population += i.population
+      res.food       += i.resources[0]
+      res.ore        += i.resources[1]
+    }
+
+    empireEl.qs('.food-income').innerText = res.food
+    empireEl.qs('.ore-income').innerText  = res.ore
   }
 
   function updateEmpireResources(empireName, resources, invert = false) {
@@ -550,6 +575,7 @@
       && bgs.backgroundColor == list[empireName]
     ) return null
 
+    //FIXME side-effects bad!
     if(invList[bgs.backgroundColor]) {
       updateEmpireResources(invList[bgs.backgroundColor], ress, true)
     }
