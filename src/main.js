@@ -338,12 +338,6 @@
         else
           getUnit(this).innerHTML = createUnit(mapEditorData.brush)
         break
-      case 'empires':
-        if(applyEmpire == "Сброс")
-          setEmpire(this, "")
-        else
-          setEmpire(this, applyEmpire)
-        break
     }
     */
 
@@ -498,6 +492,8 @@
       case EMapEditModes.choosingHomeworld:
         choosingHomeworld.done(el)
         break
+      case EMapEditModes.empires:
+        setPlanetOwner(this, mapEditorData.brush)
     }
   }
 
@@ -621,6 +617,7 @@
     } else {
       //usual keys
       switch (e.code) {
+        case 'Esc':
         case 'F1':
           mapEditorData.setMode(EMapEditModes.default)
           break
@@ -709,7 +706,7 @@
       i.onclick = function(e) {
         if(e instanceof Event) e = e.target
         mapEditorData.setMode(EMapEditModes.empires)
-        mapEditorData.brush = e.innerHTML
+        mapEditorData.brush = e.parentNode.parentNode.qs('.empire-name').innerText
       }
     }
 
