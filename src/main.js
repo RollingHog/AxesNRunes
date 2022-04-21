@@ -438,6 +438,7 @@
       population: 0,
       food: 0,
       ore: 0,
+      biomes: {}
     }
 
     const ownedPlanets = Array.from(qsa('#map .planet'))
@@ -448,17 +449,23 @@
       res.population += i.population
       res.food       += i.resources[0]
       res.ore        += i.resources[1]
+      for (let j in i.biomes) {
+        if(!res.biomes[j]) res.biomes[j] = 0
+        res.biomes[j] += +i.biomes[j]
+      }
     }
 
     empireEl.qs('.population-sum').innerText = res.population
     empireEl.qs('.food-income').innerText = res.food
     empireEl.qs('.ore-income').innerText  = res.ore
+
+    return res
   }
 
   function updateEmpireResources(empireName, resources, invert = false) {
     const root = document.querySelector(`#${empireName}.empire`)
-    const foodSum = root.qs('.food-sum')
-    const oreSum  = root.qs('.ore-sum')
+    const foodSum = root.qs('.food-income')
+    const oreSum  = root.qs('.ore-income')
     if(!invert) {
       foodSum.innerText  = +foodSum.innerText + +resources[0]
       oreSum.innerText   = +oreSum.innerText  + +resources[1]
