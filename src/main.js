@@ -112,6 +112,7 @@
       "Случайный_юнит"  : Unit(0, 0, [], ["", "", [[],], []]),
       "Неупокоенный_дух": Unit(0, 0, [], ["", "", [[],], []]),
       "Дух_предков"     : Unit(0, 0, [], ["", "", [[],], []]),
+      "Дикари"     : Unit(0, 0, [], ["", "", [[],], []]),
       "Мечник"          : Unit(0, 0, [], ["", "", [[],], []]),
       "Летучий_корабль" : Unit(0, 0, [], ["", "", [[],], []]),
       // Divine
@@ -130,6 +131,8 @@
   const EBldngs = {
     list: {
       //pregen
+      "Пиздос1"       : Bldng("", "", [[],], []),
+      "Пиздос100"     : Bldng("", "", [[],], []),
       "Случайное_здание": Bldng("", "", [[],], []),
       "Случайный_ресурс": Bldng("", "", [[],], []),
       "Технология_бесплатно": Bldng("", "", [[],], []),
@@ -164,7 +167,7 @@
     1:   [EObjType.building, 'Пиздос1'],
     50:  null,
     55:  [EObjType.unit, 'Дикари', '1д4'],
-    65:  [EObjType.unit, 'Неупокоенные Духи', '1д3'],
+    65:  [EObjType.unit, 'Неупокоенный_дух', '1д3'],
     70:  [EObjType.building, 'Случайный_ресурс'],
     75:  'Стройматериалы (1 здание бесплатно)',
     80:  [EObjType.unit, 'Случайный_юнит'],
@@ -233,7 +236,13 @@
       else
         biome = Object.keys(EBiomes.list)[getRandomInt(0,7-getRandomInt(0,1)*4)]
 
-      let addRuins = biome == 'льды' ? getRandomInt(1,10)%2 : false
+      let feature = null
+      const featureRoll = getRandomInt(1,100)
+      for(let k in biomeGenerationTable) {
+        if(k < featureRoll) continue
+        if(biomeGenerationTable[k] instanceof Array) feature = biomeGenerationTable[k]
+        break
+      }
 
       for(let j=0; j<CELLS_COUNT; j++)  {
         // do {
@@ -243,8 +252,11 @@
 
         cell = planet.rows[i].cells[j]
         setBiome(cell, biome)
-        if (addRuins) {
-          setBuilding(cell.children[0].children[0].rows[0].cells[0], 'руины')
+        if (!j && feature) {
+          if(feature[0] == EObjType.building)
+            setBuilding(cell.children[0].children[0].rows[0].cells[0], feature[1])
+          if(feature[0] == EObjType.unit)
+            setUnit(cell.children[0].children[0].rows[0].cells[1], feature[1])
         }
       }
 
