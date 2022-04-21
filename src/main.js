@@ -124,7 +124,7 @@
     }
   }
 
-  const Bldng = (...args) => Obj(...args) 
+  const Bldng = (...args) => Obj(...args)
 
   // prereq, cost, effects[resources, affinities, other], repeatingEffects (same array)
   const EBldngs = {
@@ -641,7 +641,24 @@
 
   // eslint-disable-next-line no-unused-vars
   function loadPage() {
-    allPage.innerHTML=prompt('Весь текст из файла сюда')
+    document.getElementById('fileUploadEl').click()
+    // allPage.innerHTML=prompt('Весь текст из файла сюда')
+  }
+
+  function handleSaveFileSelect(evt) {
+    //see FileList
+    const file = evt.target.files[0]
+
+    if(file.type != 'text/html') {
+      alert('should be HTML file!')
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = (function(e) {
+      allPage.innerHTML = e.target.result
+    } )
+    reader.readAsText(file)
   }
 
   function generateMap() {
@@ -744,6 +761,8 @@
     // }
 
     document.body.onkeydown = onGlobalKeyDown
+
+    document.getElementById('fileUploadEl').addEventListener('change', handleSaveFileSelect, false)
 
     console.timeEnd('init')
   }
