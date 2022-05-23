@@ -14,6 +14,7 @@
     "semi": ["warn", "never"],
     "no-trailing-spaces": ["warn"],
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "no-empty": ["error", { "allowEmptyCatch": true }] 
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "eol-last": ["warn"]
   }
 }
