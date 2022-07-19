@@ -17,6 +17,16 @@ class Dummy #LightGreen {
  +method2()
 }
 note left: Пояснение/лор
+
+class Dummy2 << (Ы,red) >> #LightGreen {
+--Требования--
+ -field1
+ #field2
+--Эффект--
+ ~method1
+ +method2()
+}
+note left: Пояснение/лор
 }
 
 Car -> foo2
