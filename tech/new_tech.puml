@@ -10,12 +10,17 @@ Driver - Car : drives >
 ' Car *- Wheel : have 4 >
 Car -- Person : < owns
 
-class Dummy {
+package foo2 {
+class Dummy #LightGreen {
+--Требования--
  -field1
  #field2
- ~method1()
+--Эффект--
+ ~method1
  +method2()
 }
+note left: Пояснение/лор
+}
 
-Car -> Dummy
+Car -> foo2
 @enduml
