@@ -3,12 +3,9 @@ https://plantuml.com/en/class-diagram
 http://www.plantuml.com/plantuml/uml/
 '/
 @startuml
+page 2x2
 
 class Car
-
-Driver - Car : drives >
-' Car *- Wheel : have 4 >
-Car -- Person : < owns
 
 package foo2 {
 class Dummy #LightGreen {
