@@ -1,0 +1,21 @@
+/'
+https://plantuml.com/en/class-diagram
+http://www.plantuml.com/plantuml/uml/
+'/
+@startuml
+
+class Car
+
+Driver - Car : drives >
+' Car *- Wheel : have 4 >
+Car -- Person : < owns
+
+class Dummy {
+ -field1
+ #field2
+ ~method1()
+ +method2()
+}
+
+Car -> Dummy
+@enduml
