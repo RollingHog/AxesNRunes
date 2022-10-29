@@ -2,13 +2,13 @@
 https://plantuml.com/en/class-diagram
 http://www.plantuml.com/plantuml/uml/
 '/
-@startuml
+@startuml Tech
 page 2x2
 
 class Car
 
-package foo2 {
-class Dummy #LightGreen {
+' package foo2 {
+class Старт << (А,LightYellow) >>  #LightYellow {
 --Требования--
  -field1
  #field2
@@ -18,7 +18,7 @@ class Dummy #LightGreen {
 }
 note left: Пояснение/лор
 
-class Dummy2 << (Ы,red) >> #LightGreen {
+class Dummy2 << (В,LightGreen) >> #LightGreen {
 --Требования--
  -field1
  #field2
@@ -27,7 +27,6 @@ class Dummy2 << (Ы,red) >> #LightGreen {
  +method2()
 }
 note left: Пояснение/лор
-}
+' }
 
-Car -> foo2
 @enduml
